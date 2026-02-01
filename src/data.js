@@ -29,40 +29,51 @@ export const TRANSLATIONS = {
     }
 };
 
+const BASE_PATH = import.meta.env.BASE_URL;
+
 export const PROJECTS = [
     {
         id: 1,
-        titulo: { es: "Gestor Gastos", en: "Expense Tracker" },
-        resumen: { es: "App Android de Finanzas Personales", en: "Personal Finance Android App" },
+        titulo: { es: "BattleClickerRPG", en: "BattleClickerRPG" },
+        resumen: { es: "Juego en Android estilo Clicker RPG", en: "Clicker RPG Style Android Game" },
         desc: { 
-            es: "Aplicación nativa para Android desarrollada en Android Studio. Permite a los usuarios llevar un control exhaustivo de sus ingresos y gastos diarios. Gráficos estadísticos y base de datos local SQLite.",
-            en: "Native Android application developed in Android Studio. Allows users to track daily income and expenses. Features statistical charts and local SQLite database."
+            es: "Battle Clicker RPG combina la mecánica clásica de los clickers con la progresión de un RPG. Lucha contra jefes, desbloquea habilidades, usa objetos, registra tus estadísticas y descubre contenido oculto.",
+            en: "Battle Clicker RPG combines classic clicker mechanics with RPG progression. Fight bosses, unlock skills, use items, track your stats and discover hidden content."
         },
-        tags: ["Android", "Kotlin", "Mobile"],
-        tech: ["Android Studio", "Kotlin", "SQLite", "Material Design"],
+        tags: ["Android", "Java", "Mobile"],
+        tech: ["Android Studio", "Java", "SQLite", "Material Design"],
+        portada: `${BASE_PATH}proyectos/BattleClickerRPG/iconoBattleClickerRPG.png`,
         galeria: [
-            "https://www.youtube.com/shorts/t7bsbFAE464", 
-            "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=800&q=80",
-            "https://images.unsplash.com/photo-1616077168079-7e09a677fb2c?w=800&q=80"
+            // 1. El vídeo va primero
+            "https://www.youtube.com/shorts/t7bsbFAE464",
+            // 2. Generamos las 8 fotos automáticamente.
+            ...Array.from({ length: 8 }, (_, i) => `${BASE_PATH}proyectos/BattleClickerRPG/BattleClickerRPG_${i + 1}.png`),
         ],
-        repo: "https://github.com/TU_USUARIO/GestorGastos",
-        link: "#"
+        links: [
+            { type: "web", url: "https://kazukigd2.github.io/BattleClickerRpgWeb/", label: "Jugar Web" },
+            { type: "apk", url: `${BASE_PATH}/proyectos/BattleClickerRPG/BattleClickerRPG_V1.apk`, label: "Descargar APK" } 
+        ]
     },
     {
         id: 2,
-        titulo: { es: "The Legends of G.", en: "The Legends of G." },
-        resumen: { es: "RPG Top-Down Post-Apocalíptico", en: "Post-Apocalyptic Top-Down RPG" },
+        titulo: { es: "Gestor Gastos", en: "Expense Manager" },
+        resumen: { es: "Aplicación para gestionar gastos personales", en: "Personal Expense Management App" },
         desc: {
-            es: "RPG en vista Top Down 2D ambientado en un mundo post-apocalíptico. Sistema de combate dinámico e IA enemiga con Máquina de Estados.",
-            en: "2D Top-Down RPG set in a post-apocalyptic world. Features dynamic combat system and advanced enemy AI state machines."
+            es: "Intuitiva aplicación para gestionar gastos personales mensuales de manera eficiente mediante categorías y reportes visuales pudiendo incluir fotos. Para poder visualizar mejor tus gastos tiene 4 vistas distintas: Lista, Calendario, Gráficos y Categorías.",
+            en: "Intuitive application to efficiently manage personal monthly expenses with categories and visual reports, including photos. To better visualize your expenses, it has 4 different views: List, Calendar, Charts, and Categories."
         },
-        tags: ["Unity", "C#"],
-        tech: ["Unity 2022", "C#", "A* Pathfinding", "Cinemachine"],
+        tags: ["Android", "Kotlin", "Mobile"],
+        tech: ["Android Studio", "Kotlin", "SQLite", "Material Design"],
+        portada: `${BASE_PATH}proyectos/GestorGastos/iconoGestorGastos.png`,
         galeria: [
-            "https://www.youtube.com/watch?v=jNQXAC9IVRw",
-            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80"
+            `${BASE_PATH}proyectos/GestorGastos/demoGestorGastos.mp4`,
+            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/GestorGastos/GestorGastos_${i + 1}.png`)
         ],
-        repo: "#",
-        link: "#"
+        // Este proyecto es privado, así que NO ponemos botón de GitHub, solo el de Docker por ejemplo
+        links: [
+            { type: "github", url: "https://github.com/estebanez2/GestorGastos", label: "GitHub Repo" },
+            { type: "apk", url: `${BASE_PATH}/proyectos/GestorGastos/GestorGastos_V1.apk`, label: "Descargar APK" }         
+        ]
     }
+    //{ type: "docker", url: "#", label: "Docker Image" }
 ];

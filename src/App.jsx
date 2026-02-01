@@ -1,6 +1,6 @@
 // 1. IMPORTACIONES
 import { useState, useEffect } from 'react';
-import { Menu, X, Globe, FileText, ArrowRight, Github, Linkedin, Play, Cpu, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { Menu, X, Box, Smartphone, Globe, FileText, ArrowRight, Github, Linkedin, Play, Cpu, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 import { TRANSLATIONS, PROJECTS } from './data';
 import './index.css';
 
@@ -30,6 +30,7 @@ const Modal = ({ project, onClose, lang, t }) => {
 
   const currentMedia = project.galeria[slideIdx];
   const ytId = getYoutubeId(currentMedia);
+  const isMp4 = currentMedia.toLowerCase().endsWith('.mp4');
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 animate-fade-in">
@@ -41,16 +42,34 @@ const Modal = ({ project, onClose, lang, t }) => {
 
         {/* Carrusel */}
         <div className="w-full md:w-3/5 h-2/5 md:h-full relative bg-stone-900/50 flex items-center justify-center">
+            
+            {/* CASO 1: ES YOUTUBE */}
             {ytId ? (
                 <iframe 
                     className="w-full h-full absolute inset-0" 
                     src={`https://www.youtube.com/embed/${ytId}?enablejsapi=1&rel=0`}
                     title="YouTube" frameBorder="0" allowFullScreen
                 ></iframe>
+
+            /* CASO 2: ES VIDEO LOCAL MP4 (Nuevo) */
+            ) : isMp4 ? (
+                <video 
+                    src={currentMedia} 
+                    className="w-full h-full object-contain bg-black" 
+                    controls 
+                    autoPlay 
+                    muted // Muted es necesario para que el autoplay funcione en la mayoría de navegadores
+                    loop
+                >
+                    Tu navegador no soporta videos.
+                </video>
+
+            /* CASO 3: ES IMAGEN */
             ) : (
-                <img src={currentMedia} className="w-full h-full object-cover" alt="Project screenshot" />
+                <img src={currentMedia} className="w-full h-full object-contain bg-black" alt="Project media" />
             )}
             
+            {/* Botones de navegación (Flechas) */}
             <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
                 <button onClick={() => changeSlide(-1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft /></button>
                 <button onClick={() => changeSlide(1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight /></button>
@@ -81,13 +100,43 @@ const Modal = ({ project, onClose, lang, t }) => {
             </div>
           </div>
 
-          <div className="mt-auto pt-4 border-t border-white/5 flex gap-3">
-            <a href={project.repo} target="_blank" rel="noreferrer" className={`flex-1 glass py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-white/10 transition ${project.repo === '#' ? 'opacity-50 pointer-events-none' : ''}`}>
-                <Github size={16} /> {t.btn_repo}
-            </a>
-            <a href={project.link} className="flex-1 btn-orange py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2">
-                <Download size={16} /> {t.btn_download}
-            </a>
+          {/* Botones de acción DINÁMICOS */}
+          <div className="mt-auto pt-4 border-t border-white/5 flex flex-wrap gap-3">
+            {project.links && project.links.map((link, index) => {
+                
+                // Función auxiliar para elegir icono según el tipo
+                const getIcon = (type) => {
+                    switch(type) {
+                        case 'github': return <Github size={16} />;
+                        case 'apk': return <Smartphone size={16} />;
+                        case 'docker': return <Box size={16} />;
+                        case 'web': return <Globe size={16} />;
+                        default: return <Download size={16} />;
+                    }
+                };
+
+                // Estilo diferente si es GitHub (Glass) o Acción principal (Naranja)
+                const btnStyle = link.type === 'github' 
+                    ? "glass hover:bg-white/10" 
+                    : "btn-orange";
+
+                return (
+                    <a 
+                        key={index}
+                        href={link.url} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className={`flex-1 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition ${btnStyle}`}
+                    >
+                        {getIcon(link.type)} {link.label}
+                    </a>
+                );
+            })}
+            
+            {/* Si no hay links, mostramos mensaje opcional o nada */}
+            {(!project.links || project.links.length === 0) && (
+                <p className="text-xs text-stone-500 italic w-full text-center">Proyecto privado / En desarrollo</p>
+            )}
           </div>
         </div>
       </div>
@@ -190,9 +239,10 @@ function App() {
                 </p>
                 <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                     <a href="#proyectos" className="btn-orange px-8 py-4 rounded-2xl font-bold text-center">{t.btn_projects}</a>
-                    {/* ENLACE AL CV REAL */}
+                    
+                    {/* ENLACE AL CV REAL CORREGIDO */}
                     <a 
-                        href="/CV_Alejandro_EstebanezMoreno.pdf" 
+                        href={`${import.meta.env.BASE_URL}CV_Alejandro_EstebanezMoreno.pdf`}
                         target="_blank"
                         rel="noopener noreferrer"
                         download="CV_Alejandro_EstebanezMoreno.pdf"
@@ -245,12 +295,11 @@ function App() {
             </a>
         </div>
         
-        {/* Grid de proyectos con animación secuencial (Stagger) */}
+        {/* Grid de tarjetas de proyectos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PROJECTS.map((p, index) => {
-                let coverImg = p.galeria.find(item => !getYoutubeId(item)) || "https://images.unsplash.com/photo-1550745165-9bc0b252726f";
-                const firstIsVideo = getYoutubeId(p.galeria[0]);
-                if(firstIsVideo) coverImg = `https://img.youtube.com/vi/${firstIsVideo}/hqdefault.jpg`;
+                // Solo usamos tu portada. Si se te olvida ponerla, usa una imagen gris por defecto para que no rompa.
+                const coverImg = p.portada || "https://images.unsplash.com/photo-1550745165-9bc0b252726f";
 
                 return (
                     <motion.div 
@@ -262,11 +311,20 @@ function App() {
                         onClick={() => setSelectedProject(p)} 
                         className="glass p-5 rounded-[2rem] cursor-pointer group hover:border-orange-500/50 hover:bg-stone-900/80 transition-all duration-300"
                     >
-                        <div className="overflow-hidden rounded-[1.5rem] mb-5 h-48 relative">
+                        {/* CONTENEDOR DE LA IMAGEN */}
+                        <div className="overflow-hidden w-3/4 mx-auto aspect-square rounded-[2.5rem] mb-5 relative bg-stone-950 shadow-2xl border-2 border-white/5">
+                            
+                            {/* Efecto hover naranja */}
                             <div className="absolute inset-0 bg-orange-600/10 group-hover:bg-transparent transition z-10"></div>
-                            {firstIsVideo && <div className="absolute inset-0 flex items-center justify-center z-20"><div className="bg-black/50 p-3 rounded-full backdrop-blur-sm"><Play className="text-white fill-white" size={20} /></div></div>}
-                            <img src={coverImg} className="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt={p.titulo[lang]} />
+                            
+                            {/* IMAGEN LIMPIA (Sin iconos de play ni lógica extra) */}
+                            <img 
+                                src={coverImg} 
+                                className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
+                                alt={p.titulo[lang]} 
+                            />
                         </div>
+
                         <div className="flex gap-2 mb-3">
                             {p.tags.slice(0, 2).map(tag => (
                                 <span key={tag} className="text-[10px] font-bold bg-white/5 border border-white/10 px-2 py-1 rounded-md text-stone-300">{tag}</span>
@@ -334,8 +392,8 @@ function App() {
             )}
             
             <div className="flex justify-center gap-6 mt-10">
-                <a href="#" className="text-stone-500 hover:text-orange-500 transition"><Linkedin /></a>
-                <a href="#" className="text-stone-500 hover:text-orange-500 transition"><Github /></a>
+                <a href="https://github.com/estebanez2" className="text-stone-500 hover:text-orange-500 transition"><Linkedin /></a>
+                <a href="https://github.com/estebanez2" className="text-stone-500 hover:text-orange-500 transition"><Github /></a>
             </div>
         </motion.div>
       </section>
