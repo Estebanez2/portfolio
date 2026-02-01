@@ -44,15 +44,13 @@ export const PROJECTS = [
         tech: ["Android Studio", "Java", "SQLite", "Material Design"],
         portada: `${BASE_PATH}proyectos/BattleClickerRPG/iconoBattleClickerRPG.png`,
         galeria: [
-            // 1. El vídeo va primero
-            "https://www.youtube.com/shorts/t7bsbFAE464",
-            // 2. Generamos las 8 fotos automáticamente.
+            `${BASE_PATH}proyectos/BattleClickerRPG/demoBattleClickerRPG.mp4`,
             ...Array.from({ length: 8 }, (_, i) => `${BASE_PATH}proyectos/BattleClickerRPG/BattleClickerRPG_${i + 1}.png`),
         ],
         links: [
-            { type: "web", url: "https://kazukigd2.github.io/BattleClickerRpgWeb/", label: "Jugar Web" },
-            { type: "apk", url: `${BASE_PATH}/proyectos/BattleClickerRPG/BattleClickerRPG_V1.apk`, label: "Descargar APK" } 
-        ]
+            { type: "web", url: "https://kazukigd2.github.io/BattleClickerRpgWeb/", label: { es: "Web de la App", en: "App Website" } },
+            { type: "apk", url: `${BASE_PATH}/proyectos/BattleClickerRPG/BattleClickerRPG_V1.apk`, label: { es: "Descargar APK", en: "Download APK" } } 
+       ]
     },
     {
         id: 2,
@@ -69,10 +67,28 @@ export const PROJECTS = [
             `${BASE_PATH}proyectos/GestorGastos/demoGestorGastos.mp4`,
             ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/GestorGastos/GestorGastos_${i + 1}.png`)
         ],
-        // Este proyecto es privado, así que NO ponemos botón de GitHub, solo el de Docker por ejemplo
         links: [
-            { type: "github", url: "https://github.com/estebanez2/GestorGastos", label: "GitHub Repo" },
-            { type: "apk", url: `${BASE_PATH}/proyectos/GestorGastos/GestorGastos_V1.apk`, label: "Descargar APK" }         
+            { type: "github", url: "https://github.com/estebanez2/GestorGastos", label: { es: "Repo GitHub", en: "GitHub Repo" } },
+            { type: "apk", url: `${BASE_PATH}/proyectos/GestorGastos/GestorGastos_V1.apk`, label: { es: "Descargar APK", en: "Download APK" } }         
+        ]
+    },
+    {
+        id: 3,
+        titulo: { es: "The Legends Of G", en: "The Legends Of G" },
+        resumen: { es: "Juego en Unity RPG Top Down 2D con combate dinámico", en: "Dynamic Top Down 2D RPG Game in Unity" },
+        desc: {
+            es: "The Legends Of G es un juego RPG Top Down 2D desarrollado en Unity que ofrece una experiencia de combate dinámica y fluida. Explora un mundo post-apocalíptico con enemigos variados. Usa los distintos objetos y el inventario para completar las misiones principales y secundarias.",
+            en: "The Legends Of G is a Top Down 2D RPG game developed in Unity that offers a dynamic and fluid combat experience. Explore a post-apocalyptic world with varied enemies. Use different items and the inventory to complete main and side quests."
+        },
+        tags: ["Unity", "C#"],
+        tech: ["Unity", "C#"],
+        portada: `${BASE_PATH}proyectos/TheLegendsOfG/iconoTheLegendsOfG.png`,
+        galeria: [
+            `${BASE_PATH}proyectos/TheLegendsOfG/demoTheLegendsOfG.mp4`,
+            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/TheLegendsOfG/TheLegendsOfG_${i + 1}.png`)
+        ],
+        links: [
+            { type: "download", url: "https://drive.google.com/file/d/1v6rJMRDNA_Fe8vXu7vr6hqcSNHqXPKPI/view?usp=sharing", label: { es: "Descargar Juego (.zip)", en: "Download Game (.zip)" } }
         ]
     }
     //{ type: "docker", url: "#", label: "Docker Image" }

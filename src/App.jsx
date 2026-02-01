@@ -74,6 +74,29 @@ const Modal = ({ project, onClose, lang, t }) => {
                 <button onClick={() => changeSlide(-1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft /></button>
                 <button onClick={() => changeSlide(1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight /></button>
             </div>
+
+            {/* CONTADOR ANIMADO - TODO NARANJA */}
+            <div className="absolute bottom-4 right-4 z-20 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
+                
+                {/* Número Actual */}
+                <motion.span 
+                    key={slideIdx} 
+                    initial={{ opacity: 0, y: 5 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ duration: 0.2 }}
+                    className="text-orange-500 font-black text-xs"
+                >
+                    {slideIdx + 1}
+                </motion.span>
+
+                {/* Barra separadora */}
+                <span className="text-orange-500 font-black text-xs">/</span>
+
+                {/* Total */}
+                <span className="text-orange-500 font-black text-xs">
+                    {project.galeria.length}
+                </span>
+            </div>
         </div>
 
         {/* Info */}
@@ -128,7 +151,7 @@ const Modal = ({ project, onClose, lang, t }) => {
                         rel="noreferrer" 
                         className={`flex-1 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition ${btnStyle}`}
                     >
-                        {getIcon(link.type)} {link.label}
+                        {getIcon(link.type)} {link.label[lang]}
                     </a>
                 );
             })}
