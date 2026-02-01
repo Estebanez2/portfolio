@@ -22,6 +22,16 @@ const getYoutubeId = (url) => {
 const Modal = ({ project, onClose, lang, t }) => {
   const [slideIdx, setSlideIdx] = useState(0);
 
+    useEffect(() => {
+        // Al abrir quita el scroll
+        document.body.style.overflow = 'hidden';
+        
+        // Al cerrar devolvemos el scroll a la normalidad
+        return () => {
+        document.body.style.overflow = 'unset';
+        };
+    }, []);
+
   if (!project) return null;
 
   const changeSlide = (n) => {
