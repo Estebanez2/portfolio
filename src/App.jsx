@@ -1,14 +1,14 @@
 // 1. IMPORTACIONES
-import { useState, useEffect } from 'react';
-import { Menu, X, Box, Smartphone, Globe, FileText, ArrowRight, Github, Linkedin, Play, Cpu, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react'; // <--- AÑADIDO USEMEMO
+import { Menu, X, Box, Smartphone, Globe, FileText, ArrowRight, Github, Linkedin, Play, Cpu, ChevronLeft, ChevronRight, Download, Filter, RotateCcw } from 'lucide-react'; // <--- AÑADIDOS ICONOS EXTRA
 import { TRANSLATIONS, PROJECTS } from './data';
 import './index.css';
 
-// Importamos la imagen desde la carpeta src (asegúrate de que está ahí)
+// Importamos la imagen desde la carpeta src
 import fotoPerfil from './mi_foto.png';
 
-// Importamos librerías de animación y formulario
-import { motion } from "framer-motion";
+// Importamos librerías
+import { motion, AnimatePresence } from "framer-motion"; // <--- AÑADIDO ANIMATEPRESENCE
 import { useForm, ValidationError } from '@formspree/react';
 
 // --- FUNCIONES AUXILIARES ---
@@ -18,7 +18,29 @@ const getYoutubeId = (url) => {
   return (match && match[2].length === 11) ? match[2] : null;
 };
 
-// --- COMPONENTE MODAL ---
+// Función para intentar adivinar el slug del icono de SimpleIcons
+const getIconSlug = (techName) => {
+    // Mapa manual para correcciones específicas si el nombre no coincide directo
+    const map = {
+        "C#": "csharp",
+        "C++": "cplusplus",
+        ".NET": "dotnet",
+        "Material Design": "materialdesignicons",
+        "SQL Server": "microsoftsqlserver",
+        "HTML5": "html5",
+        "CSS3": "css3",
+        "React Native": "react",
+        "Express.js": "express",
+        "Node.js": "nodedotjs"
+    };
+    
+    if (map[techName]) return map[techName];
+    
+    // Lógica por defecto: minúsculas, quitar espacios y puntos
+    return techName.toLowerCase().replace(/\s+/g, '').replace(/\./g, '');
+};
+
+// --- COMPONENTE MODAL (IGUAL QUE ANTES) ---
 const Modal = ({ project, onClose, lang, t }) => {
   const [slideIdx, setSlideIdx] = useState(0);
 
@@ -53,7 +75,7 @@ const Modal = ({ project, onClose, lang, t }) => {
         {/* Carrusel */}
         <div className="w-full md:w-3/5 h-2/5 md:h-full relative bg-stone-900/50 flex items-center justify-center">
             
-            {/* CASO 1: ES YOUTUBE */}
+            /* CASO 1: ES YOUTUBE */
             {ytId ? (
                 <iframe 
                     className="w-full h-full absolute inset-0" 
@@ -61,18 +83,13 @@ const Modal = ({ project, onClose, lang, t }) => {
                     title="YouTube" frameBorder="0" allowFullScreen
                 ></iframe>
 
-            /* CASO 2: ES VIDEO LOCAL MP4 (Nuevo) */
+            /* CASO 2: ES VIDEO LOCAL MP4 */
             ) : isMp4 ? (
                 <video 
                     src={currentMedia} 
                     className="w-full h-full object-contain bg-black" 
-                    controls 
-                    autoPlay 
-                    muted // Muted es necesario para que el autoplay funcione en la mayoría de navegadores
-                    loop
-                >
-                    Tu navegador no soporta videos.
-                </video>
+                    controls autoPlay muted loop
+                >Tu navegador no soporta videos.</video>
 
             /* CASO 3: ES IMAGEN */
             ) : (
@@ -85,27 +102,17 @@ const Modal = ({ project, onClose, lang, t }) => {
                 <button onClick={() => changeSlide(1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight /></button>
             </div>
 
-            {/* CONTADOR ANIMADO - TODO NARANJA */}
+            {/* CONTADOR ANIMADO */}
             <div className="absolute bottom-4 right-4 z-20 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
                 
                 {/* Número Actual */}
                 <motion.span 
                     key={slideIdx} 
-                    initial={{ opacity: 0, y: 5 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    transition={{ duration: 0.2 }}
+                    initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
                     className="text-orange-500 font-black text-xs"
-                >
-                    {slideIdx + 1}
-                </motion.span>
-
-                {/* Barra separadora */}
+                >{slideIdx + 1}</motion.span>
                 <span className="text-orange-500 font-black text-xs">/</span>
-
-                {/* Total */}
-                <span className="text-orange-500 font-black text-xs">
-                    {project.galeria.length}
-                </span>
+                <span className="text-orange-500 font-black text-xs">{project.galeria.length}</span>
             </div>
         </div>
 
@@ -147,20 +154,11 @@ const Modal = ({ project, onClose, lang, t }) => {
                         default: return <Download size={16} />;
                     }
                 };
-
-                // Estilo diferente si es GitHub (Glass) o Acción principal (Naranja)
-                const btnStyle = link.type === 'github' 
-                    ? "glass hover:bg-white/10" 
-                    : "btn-orange";
+                const btnStyle = link.type === 'github' ? "glass hover:bg-white/10" : "btn-orange";
 
                 return (
-                    <a 
-                        key={index}
-                        href={link.url} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className={`flex-1 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition ${btnStyle}`}
-                    >
+                    <a key={index} href={link.url} target="_blank" rel="noreferrer" 
+                        className={`flex-1 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition ${btnStyle}`}>
                         {getIcon(link.type)} {link.label[lang]}
                     </a>
                 );
@@ -183,15 +181,16 @@ function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [scrolled, setScrolled] = useState(0);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  
+  // Estado para filtrar por tecnología
+  const [filterTech, setFilterTech] = useState(null);
 
   // CONFIGURACIÓN DE FORMSPREE
   const [state, handleSubmit] = useForm("xkobaqjg");
 
   const t = TRANSLATIONS[lang];
 
-  useEffect(() => {
-    localStorage.setItem('lang', lang);
-  }, [lang]);
+  useEffect(() => { localStorage.setItem('lang', lang); }, [lang]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -202,6 +201,19 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // --- OBTENER TODAS LAS TECNOLOGÍAS ÚNICAS ---
+  // Extraemos todos los arrays 'tech' de los proyectos, los aplanamos y quitamos duplicados
+  const uniqueTechs = useMemo(() => {
+      const all = PROJECTS.flatMap(p => p.tech);
+      return [...new Set(all)].sort();
+  }, []);
+
+  // --- FILTRAR PROYECTOS ---
+  // Si filterTech tiene valor, mostramos solo los que lo incluyan
+  const visibleProjects = filterTech 
+      ? PROJECTS.filter(p => p.tech.includes(filterTech))
+      : PROJECTS;
 
   return (
     <div className="antialiased text-stone-200">
@@ -249,16 +261,11 @@ function App() {
         </div>
       </nav>
 
-      {/* HERO SECTION (Con animación de entrada) */}
+      {/* HERO SECTION */}
       <section id="inicio" className="min-h-screen flex items-center justify-center px-6 pt-20">
         <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
-            
-            {/* Texto Animado */}
             <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
                 className="text-center md:text-left order-2 md:order-1"
             >
                 <div className="inline-block px-3 py-1 mb-4 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-bold tracking-widest uppercase">
@@ -267,31 +274,17 @@ function App() {
                 <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
                     CODE.<br/>CREATE.<br/><span className="orange-gradient">DEPLOY.</span>
                 </h1>
-                <p className="text-stone-400 text-lg mb-8 leading-relaxed">
-                    {t.hero_desc}
-                </p>
+                <p className="text-stone-400 text-lg mb-8 leading-relaxed">{t.hero_desc}</p>
                 <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                     <a href="#proyectos" className="btn-orange px-8 py-4 rounded-2xl font-bold text-center">{t.btn_projects}</a>
-                    
-                    {/* ENLACE AL CV REAL CORREGIDO */}
-                    <a 
-                        href={`${import.meta.env.BASE_URL}CV_Alejandro_EstebanezMoreno.pdf`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        download="CV_Alejandro_EstebanezMoreno.pdf"
-                        className="glass px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition"
-                    >
+                    <a href={`${import.meta.env.BASE_URL}CV_Alejandro_EstebanezMoreno.pdf`} target="_blank" rel="noopener noreferrer" download="CV_Alejandro_EstebanezMoreno.pdf" className="glass px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition">
                         <FileText size={16} /> {t.btn_cv}
                     </a>
                 </div>
             </motion.div>
 
-            {/* Foto de Perfil Animada */}
             <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
                 className="order-1 md:order-2 flex justify-center relative"
             >
                 <div className="absolute inset-0 bg-orange-500/20 blur-[80px] rounded-full"></div>
@@ -302,16 +295,55 @@ function App() {
         </div>
       </section>
 
-      {/* Stack Section */}
-      <section className="py-8 border-y border-white/5 bg-black/20">
+      {/* --- TECH STACK INTERACTIVO --- */}
+      <section className="py-12 border-y border-white/5 bg-black/20">
         <div className="max-w-6xl mx-auto px-6">
-            <p className="text-center text-xs font-bold text-stone-500 uppercase tracking-widest mb-6">{t.stack_title}</p>
-            <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0">
-                <img src="https://cdn.simpleicons.org/android/3DDC84" className="h-8 md:h-10" title="Android" />
-                <img src="https://cdn.simpleicons.org/kotlin/7F52FF" className="h-8 md:h-10" title="Kotlin" />
-                <img src="https://cdn.simpleicons.org/unity/white" className="h-8 md:h-10" title="Unity" />
-                <img src="https://cdn.simpleicons.org/csharp/512BD4" className="h-8 md:h-10" title="C#" />
-                <img src="https://cdn.simpleicons.org/git/F05032" className="h-8 md:h-10" title="Git" />
+            <p className="text-center text-xs font-bold text-stone-500 uppercase tracking-widest mb-8">
+                {filterTech ? (lang === 'es' ? 'Filtrando por:' : 'Filtering by:') : t.stack_title}
+            </p>
+            
+            {/* Si hay filtro activo, mostramos botón para borrar */}
+            {filterTech && (
+                <div className="flex justify-center mb-6">
+                    <button 
+                        onClick={() => setFilterTech(null)} 
+                        className="flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-red-500/20 transition"
+                    >
+                        <RotateCcw size={14} /> {lang === 'es' ? 'Borrar filtro' : 'Clear filter'}
+                    </button>
+                </div>
+            )}
+
+            {/* Lista dinámica de iconos */}
+            <div className="flex flex-wrap justify-center gap-4">
+                {uniqueTechs.map(tech => {
+                    const isActive = filterTech === tech;
+                    const isInactive = filterTech && !isActive;
+
+                    return (
+                        <button
+                            key={tech}
+                            onClick={() => setFilterTech(isActive ? null : tech)}
+                            className={`
+                                flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300
+                                ${isActive 
+                                    ? 'bg-orange-500 text-white border-orange-500 scale-105 shadow-lg shadow-orange-500/20' 
+                                    : 'bg-white/5 border-white/5 text-stone-400 hover:bg-white/10 hover:border-white/10 hover:text-white'
+                                }
+                                ${isInactive ? 'opacity-30 grayscale' : 'opacity-100'}
+                            `}
+                        >
+                            {/* Icono dinámico desde SimpleIcons */}
+                            <img 
+                                src={`https://cdn.simpleicons.org/${getIconSlug(tech)}/${isActive ? 'white' : '9ca3af'}`} 
+                                className="w-4 h-4 transition-all"
+                                onError={(e) => e.target.style.display = 'none'} // Si falla el icono, se oculta y queda solo texto
+                                alt=""
+                            />
+                            <span className="text-xs font-bold uppercase tracking-wider">{tech}</span>
+                        </button>
+                    );
+                })}
             </div>
         </div>
       </section>
@@ -321,53 +353,59 @@ function App() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
             <div>
                 <h2 className="text-4xl font-black uppercase tracking-tighter">{t.section_projects_title}<span className="text-orange-500">.</span></h2>
-                <p className="text-stone-400 mt-2">{t.section_projects_subtitle}</p>
+                <p className="text-stone-400 mt-2">
+                    {filterTech 
+                        ? (lang === 'es' ? `Mostrando proyectos con ${filterTech}` : `Showing projects built with ${filterTech}`)
+                        : t.section_projects_subtitle
+                    }
+                </p>
             </div>
             <a href="https://github.com/estebanez2" target="_blank" rel="noreferrer" className="text-xs font-bold text-orange-500 uppercase tracking-widest hover:text-white transition flex items-center gap-2">
                 {t.github_link} <ArrowRight size={16} />
             </a>
         </div>
         
-        {/* Grid de tarjetas de proyectos */}
+        {/* Grid de proyectos (FILTRADO) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PROJECTS.map((p, index) => {
-                // Solo usamos tu portada. Si se te olvida ponerla, usa una imagen gris por defecto para que no rompa.
-                const coverImg = p.portada || "https://images.unsplash.com/photo-1550745165-9bc0b252726f";
+            <AnimatePresence mode='popLayout'>
+                {visibleProjects.map((p, index) => {
+                    const coverImg = p.portada || "https://images.unsplash.com/photo-1550745165-9bc0b252726f";
 
-                return (
-                    <motion.div 
-                        key={p.id} 
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        onClick={() => setSelectedProject(p)} 
-                        className="glass p-5 rounded-[2rem] cursor-pointer group hover:border-orange-500/50 hover:bg-stone-900/80 transition-all duration-300"
-                    >
-                        {/* CONTENEDOR DE LA IMAGEN */}
-                        <div className="overflow-hidden w-3/4 mx-auto aspect-square rounded-[2.5rem] mb-5 relative bg-stone-950 shadow-2xl border-2 border-white/5">
-                            
-                            {/* Efecto hover naranja */}
-                            <div className="absolute inset-0 bg-orange-600/10 group-hover:bg-transparent transition z-10"></div>
-                            
-                            {/* IMAGEN LIMPIA (Sin iconos de play ni lógica extra) */}
-                            <img 
-                                src={coverImg} 
-                                className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
-                                alt={p.titulo[lang]} 
-                            />
-                        </div>
+                    return (
+                        <motion.div 
+                            layout
+                            key={p.id} 
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.3 }}
+                            onClick={() => setSelectedProject(p)} 
+                            className="glass p-5 rounded-[2rem] cursor-pointer group hover:border-orange-500/50 hover:bg-stone-900/80 transition-all duration-300"
+                        >
+                            <div className="overflow-hidden w-3/4 mx-auto aspect-square rounded-[2.5rem] mb-5 relative bg-stone-950 shadow-2xl border-2 border-white/5">
+                                <div className="absolute inset-0 bg-orange-600/10 group-hover:bg-transparent transition z-10"></div>
+                                <img src={coverImg} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt={p.titulo[lang]} />
+                            </div>
 
-                        <div className="flex gap-2 mb-3">
-                            {p.tags.slice(0, 2).map(tag => (
-                                <span key={tag} className="text-[10px] font-bold bg-white/5 border border-white/10 px-2 py-1 rounded-md text-stone-300">{tag}</span>
-                            ))}
-                        </div>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-orange-500 transition">{p.titulo[lang]}</h3>
-                        <p className="text-stone-500 text-sm line-clamp-2">{p.resumen[lang]}</p>
-                    </motion.div>
-                );
-            })}
+                            <div className="flex gap-2 mb-3">
+                                {p.tags.slice(0, 2).map(tag => (
+                                    <span key={tag} className="text-[10px] font-bold bg-white/5 border border-white/10 px-2 py-1 rounded-md text-stone-300">{tag}</span>
+                                ))}
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-orange-500 transition">{p.titulo[lang]}</h3>
+                            <p className="text-stone-500 text-sm line-clamp-2">{p.resumen[lang]}</p>
+                        </motion.div>
+                    );
+                })}
+            </AnimatePresence>
+            
+            {/* Mensaje si no hay resultados */}
+            {visibleProjects.length === 0 && (
+                <div className="col-span-full py-20 text-center">
+                    <p className="text-stone-500 text-lg">No hay proyectos con esta tecnología... todavía.</p>
+                    <button onClick={() => setFilterTech(null)} className="mt-4 text-orange-500 font-bold hover:underline">Ver todos</button>
+                </div>
+            )}
         </div>
       </section>
 
@@ -375,16 +413,18 @@ function App() {
       <section className="py-20 px-6 max-w-6xl mx-auto text-center">
         <div className="glass p-8 rounded-3xl inline-block border border-orange-500/10">
             <h3 className="text-xs font-bold text-stone-500 uppercase tracking-[0.3em] mb-6">{t.repo_activity}</h3>
-            <img src="https://ghchart.rshah.org/ea580c/TU_USUARIO" alt="Github Chart" className="w-full max-w-2xl opacity-80 hover:opacity-100 transition-opacity" />
+            <img 
+                src="https://ghchart.rshah.org/ea580c/estebanez2" 
+                alt="Github Chart" 
+                className="w-full max-w-2xl opacity-80 hover:opacity-100 transition-opacity" 
+            />
         </div>
       </section>
 
-      {/* Contacto Section con Formulario AJAX */}
+      {/* Contacto Section */}
       <section id="contacto" className="py-24 px-6 max-w-4xl mx-auto">
         <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
             className="glass p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden"
         >
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
@@ -425,7 +465,7 @@ function App() {
             )}
             
             <div className="flex justify-center gap-6 mt-10">
-                <a href="https://github.com/estebanez2" className="text-stone-500 hover:text-orange-500 transition"><Linkedin /></a>
+                <a href="https://www.linkedin.com/in/alejandro-estebanez-moreno-a2749a3aa/" className="text-stone-500 hover:text-orange-500 transition"><Linkedin /></a>
                 <a href="https://github.com/estebanez2" className="text-stone-500 hover:text-orange-500 transition"><Github /></a>
             </div>
         </motion.div>
