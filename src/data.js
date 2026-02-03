@@ -107,7 +107,7 @@ export const PROJECTS = [
             ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/X-it/X-it_${i + 1}.png`)
         ],
         links: [
-            { type: "web", url: "https://x-it-nine.vercel.app/", label: { es: "Jugar en línea", en: "Play Online" } },
+            { type: "web", url: "https://x-it-nine.vercel.app/", label: { es: "Jugar en la Web", en: "Play on the Web   " } },
         ]
     },
     {
@@ -123,10 +123,10 @@ export const PROJECTS = [
         portada: `${BASE_PATH}proyectos/MiniPIM/iconoMiniPIM.png`,
         galeria: [
             `${BASE_PATH}proyectos/MiniPIM/demoMiniPIM.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/MiniPIM/MiniPIM_${i + 1}.png`)
+            ...Array.from({ length: 8 }, (_, i) => `${BASE_PATH}proyectos/MiniPIM/MiniPIM_${i + 1}.png`)
         ],
         links: [
-            { type: "github", url: "#", label: { es: "Ver Código", en: "View Code" } },
+            { type: "github", url: "https://github.com/Estebanez2/MiniPIM", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
         ]
     },
     {
@@ -142,10 +142,10 @@ export const PROJECTS = [
         portada: `${BASE_PATH}proyectos/SceneIt/iconoSceneIt.png`,
         galeria: [
             `${BASE_PATH}proyectos/SceneIt/demoSceneIt.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/SceneIt/SceneIt_${i + 1}.png`)
+            ...Array.from({ length: 9 }, (_, i) => `${BASE_PATH}proyectos/SceneIt/SceneIt_${i + 1}.png`)
         ],
         links: [
-            { type: "github", url: "#", label: { es: "Ver Código", en: "View Code" } },
+            { type: "github", url: "https://github.com/Estebanez2/SceneIt", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
         ]
     },
     {
@@ -156,14 +156,16 @@ export const PROJECTS = [
             es: "Aplicación desarrollada con Scratch que implementa un sistema de mensajería básica mediante comunicación Bluetooth. Pese a que Scratch no está diseñado para este tipo de aplicaciones, si no más para entornos educativos, el proyecto explora conceptos fundamentales como el intercambio de mensajes en tiempo real.",
             en: "Application developed with Scratch that implements a basic messaging system using Bluetooth communication. Although Scratch is not designed for this type of application, but rather for educational environments, the project explores fundamental concepts such as real-time message exchange."
         },
-        tags: ["Java", "Scratch"],
-        tech: ["Scratch", "Bluetooth Protocol", "Java"],
+        tags: ["Java", "App Inventor"],
+        tech: ["App Inventor", "Bluetooth Protocol", "Java"],
         portada: `${BASE_PATH}proyectos/ChatBluetooth/iconoChatBluetooth.png`,
         galeria: [
             `${BASE_PATH}proyectos/ChatBluetooth/demoChatBluetooth.mp4`,
             ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/ChatBluetooth/ChatBluetooth_${i + 1}.png`)
         ],
-        links: []
+        links: [
+            { type: "github", url: "https://github.com/Estebanez2/ChatBluetooth", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
+        ]
     },
     {
         id: 8,

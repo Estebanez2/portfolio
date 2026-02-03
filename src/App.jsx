@@ -1,6 +1,6 @@
 // 1. IMPORTACIONES
-import { useState, useEffect, useMemo } from 'react'; // <--- AÑADIDO USEMEMO
-import { Menu, X, Box, Smartphone, Globe, FileText, ArrowRight, Github, Linkedin, Play, Cpu, ChevronLeft, ChevronRight, Download, Filter, RotateCcw } from 'lucide-react'; // <--- AÑADIDOS ICONOS EXTRA
+import { useState, useEffect, useMemo } from 'react';
+import { Menu, X, Box, Smartphone, Globe, FileText, ArrowRight, Github, Linkedin, Play, Cpu, ChevronLeft, ChevronRight, Download, Filter, RotateCcw, Maximize2, Minimize2 } from 'lucide-react';
 import { TRANSLATIONS, PROJECTS } from './data';
 import './index.css';
 
@@ -8,7 +8,7 @@ import './index.css';
 import fotoPerfil from './mi_foto.png';
 
 // Importamos librerías
-import { motion, AnimatePresence } from "framer-motion"; // <--- AÑADIDO ANIMATEPRESENCE
+import { motion, AnimatePresence } from "framer-motion";
 import { useForm, ValidationError } from '@formspree/react';
 
 // --- FUNCIONES AUXILIARES ---
@@ -40,19 +40,28 @@ const getIconSlug = (techName) => {
     return techName.toLowerCase().replace(/\s+/g, '').replace(/\./g, '');
 };
 
-// --- COMPONENTE MODAL (IGUAL QUE ANTES) ---
+// --- COMPONENTE MODAL ---
 const Modal = ({ project, onClose, lang, t }) => {
   const [slideIdx, setSlideIdx] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
     useEffect(() => {
-        // Al abrir quita el scroll
         document.body.style.overflow = 'hidden';
         
-        // Al cerrar devolvemos el scroll a la normalidad
-        return () => {
-        document.body.style.overflow = 'unset';
+        // Listener para salir con ESC
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') {
+                if (isFullScreen) setIsFullScreen(false);
+                else onClose();
+            }
         };
-    }, []);
+        window.addEventListener('keydown', handleEsc);
+
+        return () => {
+            document.body.style.overflow = 'unset';
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [isFullScreen, onClose]);
 
   if (!project) return null;
 
@@ -66,16 +75,26 @@ const Modal = ({ project, onClose, lang, t }) => {
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 animate-fade-in">
-      <div className="glass w-full max-w-6xl h-[90vh] md:h-[80vh] overflow-hidden rounded-[2rem] relative flex flex-col md:flex-row shadow-2xl border border-white/10">
+      {/* Contenedor Principal: Si es fullscreen quitamos bordes, padding y límites de tamaño */}
+      <div className={`glass w-full max-w-6xl h-[90vh] md:h-[80vh] overflow-hidden rounded-[2rem] relative flex flex-col md:flex-row shadow-2xl border border-white/10 transition-all duration-300 ${isFullScreen ? 'bg-transparent border-none shadow-none !p-0 !m-0 !max-w-none !h-full !rounded-none' : ''}`}>
         
-        <button onClick={onClose} className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-red-500/80 p-2 rounded-full transition text-white backdrop-blur-sm">
-          <X size={24} />
-        </button>
+        {/* Botón Cerrar (Se oculta en fullscreen) */}
+        {!isFullScreen && (
+            <button onClick={onClose} className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-red-500/80 p-2 rounded-full transition text-white backdrop-blur-sm">
+            <X size={24} />
+            </button>
+        )}
 
-        {/* Carrusel */}
-        <div className="w-full md:w-3/5 h-2/5 md:h-full relative bg-stone-900/50 flex items-center justify-center">
+        {/* Carrusel / Columna Izquierda */}
+        <div className={`
+            relative bg-stone-900/50 flex items-center justify-center transition-all duration-300
+            ${isFullScreen 
+                ? 'fixed inset-0 z-[200] w-full h-full bg-black' // Estilo Fullscreen
+                : 'w-full md:w-3/5 h-2/5 md:h-full' // Estilo Normal
+            }
+        `}>
             
-            /* CASO 1: ES YOUTUBE */
+            {/* Medios */}
             {ytId ? (
                 <iframe 
                     className="w-full h-full absolute inset-0" 
@@ -96,16 +115,25 @@ const Modal = ({ project, onClose, lang, t }) => {
                 <img src={currentMedia} className="w-full h-full object-contain bg-black" alt="Project media" />
             )}
             
-            {/* Botones de navegación (Flechas) */}
-            <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
-                <button onClick={() => changeSlide(-1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft /></button>
-                <button onClick={() => changeSlide(1)} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight /></button>
+            {/* Botón Maximizar (Solo si no es YouTube) */}
+            {!ytId && (
+                <button 
+                    onClick={() => setIsFullScreen(!isFullScreen)}
+                    className="absolute top-4 right-4 z-[210] bg-black/50 hover:bg-orange-600 p-2 rounded-full transition text-white backdrop-blur-sm group"
+                    title={isFullScreen ? "Salir de pantalla completa" : "Pantalla completa"}
+                >
+                    {isFullScreen ? <Minimize2 size={24} /> : <Maximize2 size={24} />}
+                </button>
+            )}
+
+            {/* Flechas */}
+            <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none z-[205]">
+                <button onClick={(e) => {e.stopPropagation(); changeSlide(-1);}} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft size={isFullScreen ? 40 : 24}/></button>
+                <button onClick={(e) => {e.stopPropagation(); changeSlide(1);}} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight size={isFullScreen ? 40 : 24}/></button>
             </div>
 
-            {/* CONTADOR ANIMADO */}
-            <div className="absolute bottom-4 right-4 z-20 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
-                
-                {/* Número Actual */}
+            {/* Contador */}
+            <div className="absolute bottom-4 right-4 z-[205] bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
                 <motion.span 
                     key={slideIdx} 
                     initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
@@ -116,8 +144,11 @@ const Modal = ({ project, onClose, lang, t }) => {
             </div>
         </div>
 
-        {/* Info */}
-        <div className="w-full md:w-2/5 h-3/5 md:h-full p-8 flex flex-col bg-[#0c0a09]">
+        {/* Info / Columna Derecha (Se oculta en fullscreen) */}
+        <div className={`
+            w-full md:w-2/5 h-3/5 md:h-full p-8 flex flex-col bg-[#0c0a09]
+            ${isFullScreen ? 'hidden' : 'flex'}
+        `}>
           <div className="flex flex-wrap gap-2 mb-4">
              {project.tags.map(tag => (
                  <span key={tag} className="text-[10px] font-bold border border-orange-500/30 text-orange-400 bg-orange-500/5 px-2 py-1 rounded-full uppercase tracking-wider">{tag}</span>
