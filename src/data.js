@@ -179,7 +179,7 @@ export const PROJECTS = [
         tech: ["AutoCAD 2023", "2D Modeling", "3D Modeling"],
         portada: `${BASE_PATH}proyectos/AutoCad/iconoAutoCad.png`,
         galeria: [
-            ...Array.from({ length: 9 }, (_, i) => `${BASE_PATH}proyectos/AutoCad/AutoCad_${i + 1}.png`)
+            ...Array.from({ length: 11 }, (_, i) => `${BASE_PATH}proyectos/AutoCad/AutoCad_${i + 1}.png`)
         ],
         links: [
              { type: "github", url: "https://github.com/Estebanez2/AutoCad_2D-3D", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
