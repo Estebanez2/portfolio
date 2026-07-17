@@ -19,7 +19,37 @@ a, button, input, textarea { -webkit-tap-highlight-color: transparent; }
 .orange-gradient { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .glass { background: rgba(28, 25, 23, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(251, 146, 60, 0.1); }
 .btn-orange { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); transition: all 0.3s ease; border: none; color: white; }
-.btn-orange:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(234, 88, 12, 0.3); }
+.btn-orange:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.22), 0 0 16px rgba(234, 88, 12, 0.24), 0 8px 18px rgba(234, 88, 12, 0.18); }
+
+.hover-glow {
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+.hover-glow:not(.absolute):not(.fixed):not(.relative) { position: relative; }
+.hover-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 0 34%,
+    rgba(255, 255, 255, 0.22) 47%,
+    transparent 60% 100%
+  );
+  transform: translateX(-80%);
+  transition: opacity 90ms ease-out, transform 320ms ease;
+}
+.hover-glow > * { position: relative; z-index: 1; }
+.hover-glow:hover { box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.18), 0 0 14px rgba(234, 88, 12, 0.18); }
+.hover-glow:hover::before { opacity: 1; transform: translateX(80%); }
+.hover-glow:disabled:hover { box-shadow: none; }
+.hover-glow:focus-visible { outline: 2px solid rgba(251, 146, 60, 0.55); outline-offset: 3px; box-shadow: 0 0 16px rgba(234, 88, 12, 0.22); }
+.text-glow:hover { filter: drop-shadow(0 0 6px rgba(251, 146, 60, 0.38)); }
+.btn-orange.hover-glow:hover { box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.24), 0 0 18px rgba(234, 88, 12, 0.28), 0 8px 18px rgba(234, 88, 12, 0.18); }
         
 /* IMAGEN DE PERFIL CON EFECTO */
 .profile-glow { box-shadow: 0 0 60px -10px rgba(234, 88, 12, 0.3); animation: pulse-glow 3s infinite alternate; }

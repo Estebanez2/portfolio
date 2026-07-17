@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, ChevronLeft, ChevronRight, Cpu, Download, Github, Globe, Maximize2, Minimize2, Smartphone, X } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
+import TechIcon from './TechIcon';
 import { getYoutubeId, isVideo } from '../utils/media';
 
 const ProjectLinkIcon = ({ type }) => {
@@ -71,7 +72,7 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
     <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-10 animate-fade-in">
       <div className={`glass w-full max-w-6xl h-[calc(100dvh-1rem)] sm:h-[90vh] md:h-[80vh] max-h-[calc(100dvh-1rem)] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] relative flex flex-col md:flex-row shadow-2xl border border-white/10 transition-all duration-300 ${isFullScreen ? 'bg-transparent border-none shadow-none !p-0 !m-0 !max-w-none !h-full !max-h-full !rounded-none' : ''}`}>
         {!isFullScreen && (
-          <button onClick={onClose} className="absolute top-3 right-3 sm:top-4 sm:right-4 z-[230] bg-black/50 hover:bg-red-500/80 p-2 rounded-full transition text-white backdrop-blur-sm" title="Cerrar">
+          <button onClick={onClose} className="hover-glow absolute top-3 right-3 sm:top-4 sm:right-4 z-[230] bg-black/50 hover:bg-red-500/80 p-2 rounded-full transition text-white backdrop-blur-sm" title="Cerrar">
             <X size={24} />
           </button>
         )}
@@ -88,7 +89,7 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
           {!ytId && (
             <button
               onClick={() => setIsFullScreen(!isFullScreen)}
-              className={`absolute top-3 sm:top-4 z-[210] bg-black/50 hover:bg-orange-600 p-2 rounded-full transition text-white backdrop-blur-sm group ${isFullScreen ? 'right-3 sm:right-4' : 'right-14 sm:right-16'}`}
+              className={`hover-glow absolute top-3 sm:top-4 z-[210] bg-black/50 hover:bg-orange-600 p-2 rounded-full transition text-white backdrop-blur-sm group ${isFullScreen ? 'right-3 sm:right-4' : 'right-14 sm:right-16'}`}
               title={isFullScreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
             >
               {isFullScreen ? <Minimize2 size={24} /> : <Maximize2 size={24} />}
@@ -96,8 +97,8 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
           )}
 
           <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none z-[205]">
-            <button onClick={(e) => { e.stopPropagation(); changeSlide(-1); }} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft size={isFullScreen ? 40 : 24} /></button>
-            <button onClick={(e) => { e.stopPropagation(); changeSlide(1); }} className="pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight size={isFullScreen ? 40 : 24} /></button>
+            <button onClick={(e) => { e.stopPropagation(); changeSlide(-1); }} className="hover-glow pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft size={isFullScreen ? 40 : 24} /></button>
+            <button onClick={(e) => { e.stopPropagation(); changeSlide(1); }} className="hover-glow pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight size={isFullScreen ? 40 : 24} /></button>
           </div>
 
           <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-[205] bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
@@ -129,9 +130,14 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
               <h4 className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-3 flex items-center gap-2">
                 <Cpu size={14} /> {t.modal_tech}
               </h4>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-xs text-stone-300">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
                 {project.tech.map((tc) => (
-                  <li key={tc} className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>{tc}</li>
+                  <li key={tc} className="flex items-center gap-2 rounded-lg border border-white/5 bg-black/20 px-2.5 py-2">
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-orange-500/10 text-orange-300">
+                      <TechIcon tech={tc} className="h-3.5 w-3.5" />
+                    </span>
+                    <span>{tc}</span>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -143,7 +149,7 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
 
               return (
                 <a key={index} href={link.url} target="_blank" rel="noreferrer"
-                  className={`flex-[1_1_140px] min-w-0 px-3 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 text-center transition ${btnStyle}`}>
+                  className={`hover-glow flex-[1_1_140px] min-w-0 px-3 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 text-center transition ${btnStyle}`}>
                   <ProjectLinkIcon type={link.type} /> {link.label[lang]}
                 </a>
               );

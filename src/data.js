@@ -2,7 +2,7 @@ export const TRANSLATIONS = {
     es: {
         nav_home: "Inicio", nav_projects: "Proyectos", nav_contact: "Contacto",
         hero_status: "Disponible para trabajar",
-        hero_desc: "Soy desarrollador apasionado por la creación de software interactivo. Me especializo en Desarrollo Móvil (Android) y Videojuegos (Unity). Transformo ideas complejas en código limpio.",
+        hero_desc: "Soy desarrollador apasionado por la creación de software interactivo. Me especializo en desarrollo móvil (Android), videojuegos (Unreal) y aplicaciones web. Transformo ideas complejas en código limpio.",
         btn_projects: "VER PROYECTOS", btn_cv: "DESCARGAR CV",
         stack_title: "Tech Stack",
         section_projects_title: "Proyectos", section_projects_subtitle: "Una selección de mis trabajos solitarios o en grupo más destacados hasta el momento.",

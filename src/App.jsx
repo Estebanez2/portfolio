@@ -12,16 +12,16 @@ import { PROJECTS, TRANSLATIONS } from './data';
 import './index.css';
 
 function App() {
-  const [lang, setLang] = useState(localStorage.getItem('lang') || 'es');
+  const [lang, setLang] = useState(() => localStorage.getItem('portfolio-lang') || 'en');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  const [filterTech, setFilterTech] = useState(null);
+  const [selectedTechs, setSelectedTechs] = useState([]);
   const scrolled = useScrollProgress();
 
   const t = TRANSLATIONS[lang];
 
   useEffect(() => {
-    localStorage.setItem('lang', lang);
+    localStorage.setItem('portfolio-lang', lang);
   }, [lang]);
 
   const uniqueTechs = useMemo(() => {
@@ -30,8 +30,12 @@ function App() {
   }, []);
 
   const visibleProjects = useMemo(
-    () => (filterTech ? PROJECTS.filter((p) => p.tech.includes(filterTech)) : PROJECTS),
-    [filterTech],
+    () => (
+      selectedTechs.length > 0
+        ? PROJECTS.filter((p) => selectedTechs.some((tech) => p.tech.includes(tech)))
+        : PROJECTS
+    ),
+    [selectedTechs],
   );
 
   return (
@@ -50,19 +54,19 @@ function App() {
 
       <HeroSection t={t} />
 
-      <TechStack
-        uniqueTechs={uniqueTechs}
-        filterTech={filterTech}
-        setFilterTech={setFilterTech}
+      <ProjectsSection
+        visibleProjects={visibleProjects}
+        selectedTechs={selectedTechs}
+        clearSelectedTechs={() => setSelectedTechs([])}
+        setSelectedProject={setSelectedProject}
         lang={lang}
         t={t}
       />
 
-      <ProjectsSection
-        visibleProjects={visibleProjects}
-        filterTech={filterTech}
-        setFilterTech={setFilterTech}
-        setSelectedProject={setSelectedProject}
+      <TechStack
+        uniqueTechs={uniqueTechs}
+        selectedTechs={selectedTechs}
+        setSelectedTechs={setSelectedTechs}
         lang={lang}
         t={t}
       />

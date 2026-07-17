@@ -17,8 +17,8 @@ const HeroSection = ({ t }) => (
         </h1>
         <p className="text-stone-400 text-base sm:text-lg mb-8 leading-relaxed max-w-full break-words">{t.hero_desc}</p>
         <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start w-full max-w-sm mx-auto md:max-w-none md:mx-0">
-          <a href="#proyectos" className="btn-orange px-6 sm:px-8 py-4 rounded-2xl font-bold text-center">{t.btn_projects}</a>
-          <a href={`${import.meta.env.BASE_URL}CV_Alejandro_EstebanezMoreno.pdf`} target="_blank" rel="noopener noreferrer" download="CV_Alejandro_EstebanezMoreno.pdf" className="glass px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition">
+          <a href="#proyectos" className="btn-orange hover-glow px-6 sm:px-8 py-4 rounded-2xl font-bold text-center">{t.btn_projects}</a>
+          <a href={`${import.meta.env.BASE_URL}CV_Alejandro_EstebanezMoreno.pdf`} target="_blank" rel="noopener noreferrer" download="CV_Alejandro_EstebanezMoreno.pdf" className="glass hover-glow px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition">
             <FileText size={16} /> {t.btn_cv}
           </a>
         </div>
@@ -29,7 +29,7 @@ const HeroSection = ({ t }) => (
         className="order-1 md:order-2 flex justify-center relative min-w-0"
       >
         <div className="absolute inset-0 bg-orange-500/20 blur-[80px] rounded-full"></div>
-        <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-[2rem] overflow-hidden border-2 border-orange-500/50 profile-glow rotate-3 hover:rotate-0 transition duration-500 bg-stone-800">
+        <div className="hover-glow relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-[2rem] overflow-hidden border-2 border-orange-500/50 profile-glow rotate-3 hover:rotate-0 transition duration-500 bg-stone-800">
           <img src={fotoPerfil} alt="Profile" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition" />
         </div>
       </Motion.div>

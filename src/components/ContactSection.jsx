@@ -41,15 +41,19 @@ const ContactSection = ({ t }) => {
             <textarea name="message" placeholder={t.form_msg_ph} rows="4" className="p-4 rounded-xl bg-black/20 border border-white/10 text-white outline-none focus:border-orange-500 focus:bg-white/5 transition" required></textarea>
             <ValidationError prefix="Message" field="message" errors={state.errors} />
 
-            <button type="submit" disabled={state.submitting} className="btn-orange py-4 rounded-xl font-bold tracking-widest hover:scale-[1.02] active:scale-95 transition disabled:opacity-50">
+            <button type="submit" disabled={state.submitting} className="btn-orange hover-glow py-4 rounded-xl font-bold tracking-widest hover:scale-[1.02] active:scale-95 transition disabled:opacity-50">
               {state.submitting ? 'ENVIANDO...' : t.btn_send}
             </button>
           </form>
         )}
 
-        <div className="flex justify-center gap-6 mt-10">
-          <a href="https://www.linkedin.com/in/alejandro-estebanez-moreno-a2749a3aa/" className="text-stone-500 hover:text-orange-500 transition"><Linkedin /></a>
-          <a href="https://github.com/estebanez2" className="text-stone-500 hover:text-orange-500 transition"><Github /></a>
+        <div className="flex justify-center gap-8 mt-10">
+          <a href="https://www.linkedin.com/in/alejandro-estebanez-moreno-a2749a3aa/" className="text-glow grid h-12 w-12 place-items-center text-stone-500 hover:text-orange-500 transition" aria-label="LinkedIn">
+            <Linkedin size={32} strokeWidth={1.8} />
+          </a>
+          <a href="https://github.com/estebanez2" className="text-glow grid h-12 w-12 place-items-center text-stone-500 hover:text-orange-500 transition" aria-label="GitHub">
+            <Github size={32} strokeWidth={1.8} />
+          </a>
         </div>
       </Motion.div>
     </section>
