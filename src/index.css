@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body { font-family: 'Inter', sans-serif; background-color: #0c0a09; color: #e7e5e4; overflow-x: hidden; }
+body { font-family: 'Inter', sans-serif; background-color: #0c0a09; color: #e7e5e4; overflow-x: hidden; min-width: 320px; }
 h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+
+#root { width: 100%; overflow-x: hidden; }
+
+img, video, iframe { max-width: 100%; }
+
+a, button, input, textarea { -webkit-tap-highlight-color: transparent; }
         
 /* FONDO ANIMADO */
 .bg-animated { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, #1c1917 0%, #0c0a09 100%); overflow: hidden; }

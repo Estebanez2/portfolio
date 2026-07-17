@@ -30,6 +30,8 @@ export const TRANSLATIONS = {
 };
 
 const BASE_PATH = import.meta.env.BASE_URL;
+const asset = (path) => `${BASE_PATH}${path}`;
+const projectAsset = (project, file) => asset(`proyectos/${project}/${file}`);
 
 export const PROJECTS = [
     {
@@ -42,14 +44,14 @@ export const PROJECTS = [
         },
         tags: ["Android", "Game"],
         tech: ["Android Studio", "Java", "SQLite", "Material Design"],
-        portada: `${BASE_PATH}proyectos/BattleClickerRPG/iconoBattleClickerRPG.png`,
+        portada: projectAsset("BattleClickerRPG", "iconoBattleClickerRPG.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/BattleClickerRPG/demoBattleClickerRPG.mp4`,
-            ...Array.from({ length: 8 }, (_, i) => `${BASE_PATH}proyectos/BattleClickerRPG/BattleClickerRPG_${i + 1}.png`),
+            projectAsset("BattleClickerRPG", "demoBattleClickerRPG.webm"),
+            ...Array.from({ length: 8 }, (_, i) => projectAsset("BattleClickerRPG", `BattleClickerRPG_${i + 1}.webp`)),
         ],
         links: [
             { type: "web", url: "https://kazukigd2.github.io/BattleClickerRpgWeb/", label: { es: "Web de la App", en: "App Website" } },
-            { type: "apk", url: `${BASE_PATH}/proyectos/BattleClickerRPG/BattleClickerRPG_V1.apk`, label: { es: "Descargar APK", en: "Download APK" } } 
+            { type: "apk", url: projectAsset("BattleClickerRPG", "BattleClickerRPG_V1.apk"), label: { es: "Descargar APK", en: "Download APK" } } 
        ]
     },
     {
@@ -62,14 +64,14 @@ export const PROJECTS = [
         },
         tags: ["Android", "App"],
         tech: ["Android Studio", "Kotlin", "SQLite", "MPAndroidChart"],
-        portada: `${BASE_PATH}proyectos/GestorGastos/iconoGestorGastos.png`,
+        portada: projectAsset("GestorGastos", "iconoGestorGastos.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/GestorGastos/demoGestorGastos.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/GestorGastos/GestorGastos_${i + 1}.png`)
+            projectAsset("GestorGastos", "demoGestorGastos.webm"),
+            ...Array.from({ length: 6 }, (_, i) => projectAsset("GestorGastos", `GestorGastos_${i + 1}.webp`))
         ],
         links: [
             { type: "github", url: "https://github.com/estebanez2/GestorGastos", label: { es: "Repo GitHub", en: "GitHub Repo" } },
-            { type: "apk", url: `${BASE_PATH}/proyectos/GestorGastos/GestorGastos_V1.apk`, label: { es: "Descargar APK", en: "Download APK" } }         
+            { type: "apk", url: projectAsset("GestorGastos", "GestorGastos_V1.apk"), label: { es: "Descargar APK", en: "Download APK" } }         
         ]
     },
     {
@@ -82,10 +84,10 @@ export const PROJECTS = [
         },
         tags: ["Unity", "C#"],
         tech: ["Unity 2D", "C#", "Cinemachine", "A* Pathfinding"],
-        portada: `${BASE_PATH}proyectos/TheLegendsOfG/iconoTheLegendsOfG.png`,
+        portada: projectAsset("TheLegendsOfG", "iconoTheLegendsOfG.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/TheLegendsOfG/demoTheLegendsOfG.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/TheLegendsOfG/TheLegendsOfG_${i + 1}.png`)
+            projectAsset("TheLegendsOfG", "demoTheLegendsOfG.webm"),
+            ...Array.from({ length: 6 }, (_, i) => projectAsset("TheLegendsOfG", `TheLegendsOfG_${i + 1}.webp`))
         ],
         links: [
             { type: "download", url: "https://drive.google.com/file/d/1v6rJMRDNA_Fe8vXu7vr6hqcSNHqXPKPI/view?usp=sharing", label: { es: "Descargar Juego (.zip)", en: "Download Game (.zip)" } }
@@ -101,10 +103,10 @@ export const PROJECTS = [
         },
         tags: ["React", "Web"],
         tech: ["React", "JavaScript", "Tailwind CSS", "Firebase"],
-        portada: `${BASE_PATH}proyectos/X-it/iconoX-it.png`,
+        portada: projectAsset("X-it", "iconoX-it.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/X-it/demoX-it.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/X-it/X-it_${i + 1}.png`)
+            projectAsset("X-it", "demoX-it.webm"),
+            ...Array.from({ length: 6 }, (_, i) => projectAsset("X-it", `X-it_${i + 1}.webp`))
         ],
         links: [
             { type: "web", url: "https://x-it-nine.vercel.app/", label: { es: "Jugar en la Web", en: "Play on the Web   " } },
@@ -120,10 +122,10 @@ export const PROJECTS = [
         },
         tags: ["Desktop", "C#"],
         tech: ["C#", "Windows Forms", ".NET", "SQL Server", "CSV Export"],
-        portada: `${BASE_PATH}proyectos/MiniPIM/iconoMiniPIM.png`,
+        portada: projectAsset("MiniPIM", "iconoMiniPIM.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/MiniPIM/demoMiniPIM.mp4`,
-            ...Array.from({ length: 8 }, (_, i) => `${BASE_PATH}proyectos/MiniPIM/MiniPIM_${i + 1}.png`)
+            projectAsset("MiniPIM", "demoMiniPIM.webm"),
+            ...Array.from({ length: 8 }, (_, i) => projectAsset("MiniPIM", `MiniPIM_${i + 1}.webp`))
         ],
         links: [
             { type: "github", url: "https://github.com/Estebanez2/MiniPIM", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
@@ -139,10 +141,10 @@ export const PROJECTS = [
         },
         tags: ["Java", "Web", "Spring"],
         tech: ["Java", "Spring Boot", "MySQL", "JSP", "Bootstrap"],
-        portada: `${BASE_PATH}proyectos/SceneIt/iconoSceneIt.png`,
+        portada: projectAsset("SceneIt", "iconoSceneIt.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/SceneIt/demoSceneIt.mp4`,
-            ...Array.from({ length: 9 }, (_, i) => `${BASE_PATH}proyectos/SceneIt/SceneIt_${i + 1}.png`)
+            projectAsset("SceneIt", "demoSceneIt.webm"),
+            ...Array.from({ length: 9 }, (_, i) => projectAsset("SceneIt", `SceneIt_${i + 1}.webp`))
         ],
         links: [
             { type: "github", url: "https://github.com/Estebanez2/SceneIt", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
@@ -158,10 +160,10 @@ export const PROJECTS = [
         },
         tags: ["Java", "App Inventor"],
         tech: ["App Inventor", "Bluetooth Protocol", "Java"],
-        portada: `${BASE_PATH}proyectos/ChatBluetooth/iconoChatBluetooth.png`,
+        portada: projectAsset("ChatBluetooth", "iconoChatBluetooth.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/ChatBluetooth/demoChatBluetooth.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/ChatBluetooth/ChatBluetooth_${i + 1}.png`)
+            projectAsset("ChatBluetooth", "demoChatBluetooth.webm"),
+            ...Array.from({ length: 6 }, (_, i) => projectAsset("ChatBluetooth", `ChatBluetooth_${i + 1}.webp`))
         ],
         links: [
             { type: "github", url: "https://github.com/Estebanez2/ChatBluetooth", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
@@ -177,9 +179,9 @@ export const PROJECTS = [
         },
         tags: ["Design", "AutoCAD"],
         tech: ["AutoCAD 2023", "2D Modeling", "3D Modeling"],
-        portada: `${BASE_PATH}proyectos/AutoCad/iconoAutoCad.png`,
+        portada: projectAsset("AutoCad", "iconoAutoCad.webp"),
         galeria: [
-            ...Array.from({ length: 11 }, (_, i) => `${BASE_PATH}proyectos/AutoCad/AutoCad_${i + 1}.png`)
+            ...Array.from({ length: 11 }, (_, i) => projectAsset("AutoCad", `AutoCad_${i + 1}.webp`))
         ],
         links: [
              { type: "github", url: "https://github.com/Estebanez2/AutoCad_2D-3D", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
@@ -195,10 +197,10 @@ export const PROJECTS = [
         },
         tags: ["Linux", "C"],
         tech: ["C Language", "Linux Kernel", "Process Management"],
-        portada: `${BASE_PATH}proyectos/ShellLinux/iconoShellLinux.png`,
+        portada: projectAsset("ShellLinux", "iconoShellLinux.webp"),
         galeria: [
-            `${BASE_PATH}proyectos/ShellLinux/demoShellLinux.mp4`,
-            ...Array.from({ length: 6 }, (_, i) => `${BASE_PATH}proyectos/ShellLinux/ShellLinux_${i + 1}.png`)
+            projectAsset("ShellLinux", "demoShellLinux.webm"),
+            ...Array.from({ length: 6 }, (_, i) => projectAsset("ShellLinux", `ShellLinux_${i + 1}.webp`))
         ],
         links: [
             { type: "github", url: "#", label: { es: "Ver Código", en: "View Code" } },
