@@ -1,7 +1,7 @@
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { mkdir, readdir, stat } from 'node:fs/promises';
+import { mkdir, readdir, rename, rm, stat } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 
@@ -85,21 +85,38 @@ const runFfmpeg = (args) => new Promise((resolve, reject) => {
 
 const convertVideo = async (source) => {
   const target = source.replace(/\.mp4$/i, '.webm');
+  const tempTarget = target.replace(/\.webm$/i, '.tmp.webm');
   await mkdir(path.dirname(target), { recursive: true });
 
   const skipped = await isFresh(source, target);
 
   if (!skipped) {
-    await runFfmpeg([
-      '-y',
-      '-i', source,
-      '-c:v', 'libvpx-vp9',
-      '-b:v', '0',
-      '-crf', '36',
-      '-row-mt', '1',
-      '-an',
-      target,
-    ]);
+    await rm(tempTarget, { force: true });
+
+    try {
+      await runFfmpeg([
+        '-y',
+        '-i', source,
+        '-map', '0:v:0',
+        '-map', '0:a?',
+        '-vf', "scale='min(1280,iw)':-2",
+        '-c:v', 'libvpx',
+        '-deadline', 'good',
+        '-cpu-used', '2',
+        '-b:v', '1600k',
+        '-maxrate', '2200k',
+        '-bufsize', '3200k',
+        '-pix_fmt', 'yuv420p',
+        '-c:a', 'libopus',
+        '-b:a', '96k',
+        tempTarget,
+      ]);
+
+      await rename(tempTarget, target);
+    } catch (error) {
+      await rm(tempTarget, { force: true });
+      throw error;
+    }
   }
 
   const sourceSize = (await stat(source)).size;

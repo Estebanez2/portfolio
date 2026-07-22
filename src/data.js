@@ -11,7 +11,7 @@ export const TRANSLATIONS = {
         form_name_ph: "Nombre", form_email_ph: "Email", form_msg_ph: "¿En qué puedo ayudarte?",
         btn_send: "ENVIAR MENSAJE",
         footer: "© 2025 Dev Portfolio. Creado con React, Vite y TailWind.",
-        modal_tech: "Stack Tecnológico", btn_repo: "REPO", btn_download: "APK / DEMO"
+        modal_tech: "Stack Tecnológico", btn_repo: "REPO", btn_download: "APK / DEMO", btn_copied: "Copiado"
     },
     en: {
         nav_home: "Home", nav_projects: "Projects", nav_contact: "Contact",
@@ -25,13 +25,15 @@ export const TRANSLATIONS = {
         form_name_ph: "Name", form_email_ph: "Email", form_msg_ph: "How can I help you?",
         btn_send: "SEND MESSAGE",
         footer: "© 2025 Dev Portfolio. Crafted with React, Vite and TailWind.",
-        modal_tech: "Tech Stack", btn_repo: "REPO", btn_download: "APK / DEMO"
+        modal_tech: "Tech Stack", btn_repo: "REPO", btn_download: "APK / DEMO", btn_copied: "Copied"
     }
 };
 
 const BASE_PATH = import.meta.env.BASE_URL;
 const asset = (path) => `${BASE_PATH}${path}`;
 const projectAsset = (project, file) => asset(`proyectos/${project}/${file}`);
+const SHELL_DOCKER_COMMAND = "docker run --rm -it ghcr.io/estebanez2/shelllinux:latest";
+const DOCUNOVA_BACKEND_COMMAND = "cd backend && docker compose up --build";
 
 export const PROJECTS = [
     {
@@ -51,7 +53,7 @@ export const PROJECTS = [
         ],
         links: [
             { type: "web", url: "https://kazukigd2.github.io/BattleClickerRpgWeb/", label: { es: "Web de la App", en: "App Website" } },
-            { type: "apk", url: projectAsset("BattleClickerRPG", "BattleClickerRPG_V1.apk"), label: { es: "Descargar APK", en: "Download APK" } } 
+            { type: "apk", url: "https://play.google.com/store/apps/details?id=com.kazukidev.battleclickerrpg", label: { es: "Ver en Play Store", en: "View on Play Store" } }
        ]
     },
     {
@@ -155,7 +157,7 @@ export const PROJECTS = [
         titulo: { es: "Chat Bluetooth", en: "Bluetooth Chat" },
         resumen: { es: "Chat móvil mediante Bluetooth", en: "Bluetooth Mobile Chat" },
         desc: {
-            es: "Aplicación desarrollada con Scratch que implementa un sistema de mensajería básica mediante comunicación Bluetooth. Pese a que Scratch no está diseñado para este tipo de aplicaciones, si no más para entornos educativos, el proyecto explora conceptos fundamentales como el intercambio de mensajes en tiempo real.",
+            es: "Aplicación desarrollada con Scratch que implementa un sistema de mensajería básica mediante comunicación Bluetooth. Pese a que Scratch no está diseñado para este tipo de aplicaciones, sino más bien para entornos educativos, el proyecto explora conceptos fundamentales como el intercambio de mensajes en tiempo real.",
             en: "Application developed with Scratch that implements a basic messaging system using Bluetooth communication. Although Scratch is not designed for this type of application, but rather for educational environments, the project explores fundamental concepts such as real-time message exchange."
         },
         tags: ["Java", "App Inventor"],
@@ -189,21 +191,126 @@ export const PROJECTS = [
     },
     {
         id: 9,
-        titulo: { es: "Shell en Linux", en: "Shell in Linux" },
-        resumen: { es: "Terminal básica creada en C", en: "Basic Terminal created in C" },
+        titulo: { es: "Shell Linux", en: "Linux Shell" },
+        resumen: { es: "Shell interactiva en C lista para probar con Docker", en: "Interactive C shell ready to run with Docker" },
         desc: {
-            es: "Implementación de un shell básico de Linux desarrollado desde cero en lenguaje C, que permite la ejecución de comandos del sistema y la gestión de procesos.",
-            en: "Implementation of a basic Linux shell developed from scratch in C language, enabling the execution of system commands and process management."
+            es: "Shell interactiva desarrollada en C para Linux. Permite ejecutar comandos del sistema, gestionar procesos en foreground y background, usar redirecciones, controlar jobs, trabajar con señales POSIX y probar ampliaciones como trabajos respawnables, alarmas y ejecución diferida. El proyecto está empaquetado con Docker y publicado en GitHub Container Registry para poder probarlo sin configurar una máquina virtual.",
+            en: "Interactive Linux shell developed in C. It can run system commands, manage foreground and background processes, use redirections, control jobs, work with POSIX signals, and test extensions such as respawnable jobs, alarms, and delayed execution. The project is packaged with Docker and published on GitHub Container Registry so it can be tested without setting up a virtual machine."
         },
-        tags: ["Linux", "C"],
-        tech: ["C Language", "Linux Kernel", "Process Management"],
-        portada: projectAsset("ShellLinux", "iconoShellLinux.webp"),
+        tags: ["Linux", "C", "Docker"],
+        tech: ["C Language", "Linux Kernel", "Process Management", "Docker", "GitHub Actions"],
+        command: SHELL_DOCKER_COMMAND,
         galeria: [
             projectAsset("ShellLinux", "demoShellLinux.webm"),
-            ...Array.from({ length: 6 }, (_, i) => projectAsset("ShellLinux", `ShellLinux_${i + 1}.webp`))
+            ...Array.from({ length: 3 }, (_, i) => projectAsset("ShellLinux", `ShellLinux_${i + 1}.webp`)),
         ],
         links: [
-            { type: "github", url: "#", label: { es: "Ver Código", en: "View Code" } },
+            { type: "github", url: "https://github.com/Estebanez2/ShellLinux", label: { es: "Ver GitHub + ReadMe.md", en: "View GitHub + ReadMe.md" } },
+            { type: "command", command: SHELL_DOCKER_COMMAND, label: { es: "Copiar comando Docker", en: "Copy Docker command" } },
+        ]
+    },
+    {
+        id: 10,
+        titulo: { es: "Portfolio Alejandro Biedma", en: "Alejandro Biedma Portfolio" },
+        resumen: { es: "Portfolio React para Ingeniero Industrial", en: "React portfolio for an Industrial Engineer" },
+        desc: {
+            es: "Portfolio profesional desarrollado con React y Vite para Alejandro Biedma Carrasco, estudiante de Ingeniería en Diseño Industrial y Desarrollo del Producto. La web presenta proyectos de diseño industrial con navegación por rutas hash, cambio de idioma, páginas de detalle, galerías optimizadas, documentos técnicos y visualización de modelos 3D con Three.js. El objetivo fue crear una experiencia responsive, visualmente cuidada y ligera para mostrar renders, planos, memorias y branding de cada proyecto.",
+            en: "Professional portfolio built with React and Vite for Alejandro Biedma Carrasco, an Industrial Design and Product Development Engineering student. The site presents industrial design projects through hash routing, language switching, detail pages, optimized galleries, technical documents, and 3D model visualization with Three.js. The goal was to create a responsive, polished, lightweight experience for renders, drawings, reports, and project branding."
+        },
+        tags: ["React", "Web"],
+        tech: ["React", "Vite", "Three.js", "JavaScript", "CSS3", "Responsive Design"],
+        portada: projectAsset("PortfolioBiedma", "logo.webp"),
+        coverOverlay: false,
+        galeria: [
+            projectAsset("PortfolioBiedma", "demoPortfolioBiedma.webm"),
+            ...Array.from({ length: 7 }, (_, i) => projectAsset("PortfolioBiedma", `PortfolioBiedma_${i + 1}.webp`)),
+        ],
+        links: [
+            { type: "github", url: "https://github.com/Estebanez2/portfolioAlejandroBiedmaCarrasco", label: { es: "Ver GitHub", en: "View GitHub" } },
+        ]
+    },
+    {
+        id: 11,
+        titulo: { es: "Kalendas", en: "Kalendas" },
+        resumen: { es: "Calendario full stack con microservicios", en: "Full-stack calendar with microservices" },
+        desc: {
+            es: "Aplicación full stack de calendarios desarrollada en equipo e inspirada en Google Calendar. Permite gestionar calendarios propios, públicos y suscritos, crear subcalendarios, administrar eventos con etiquetas, importar y exportar calendarios en JSON, importar calendarios desde Google Calendar, añadir comentarios, notificaciones y multimedia. La arquitectura separa frontend React/TypeScript, API Gateway con FastAPI, microservicios independientes, MongoDB y un servicio Node/Express para Cloudinary y Brevo, todo preparado para ejecutarse con Docker Compose.",
+            en: "Team-built full-stack calendar application inspired by Google Calendar. It supports personal, public and subscribed calendars, nested subcalendars, event management with tags, JSON import/export, Google Calendar imports, comments, notifications and multimedia. The architecture separates a React/TypeScript frontend, a FastAPI API Gateway, independent microservices, MongoDB and a Node/Express service for Cloudinary and Brevo, all ready to run with Docker Compose."
+        },
+        tags: ["React", "Web"],
+        tech: ["React", "TypeScript", "FastAPI", "MongoDB", "Docker", "Firebase", "FullCalendar", "Google Calendar API"],
+        portada: projectAsset("Kalendas", "logo.webp"),
+        coverOverlay: false,
+        galeria: [
+            projectAsset("Kalendas", "demoKalendas.webm"),
+            ...Array.from({ length: 6 }, (_, i) => projectAsset("Kalendas", `Kalendas_${i + 1}.webp`)),
+        ],
+        links: [
+            { type: "github", url: "https://github.com/Estebanez2/KalendasWeb", label: { es: "Ver GitHub + ReadMe.md", en: "View GitHub + ReadMe.md" } },
+        ]
+    },
+    {
+        id: 12,
+        titulo: { es: "Docunova", en: "Docunova" },
+        resumen: { es: "Plataforma web y móvil para gestión de obras", en: "Web and mobile platform for construction management" },
+        desc: {
+            es: "Plataforma full stack desarrollada durante mis prácticas de empresa para gestionar proyectos de obra, empleados y partes de trabajo. El sistema conecta un backend FastAPI con PostgreSQL, un backoffice web en Next.js/React y una app Android en Kotlin con Jetpack Compose. Incluye autenticación con JWT, roles de administrador y empleado, CRUD de proyectos y empleados, partes con fechas, horas, notas e imágenes, migraciones con Alembic y ejecución local preparada con Docker.",
+            en: "Full-stack platform developed during my company internship to manage construction projects, employees and work records. The system connects a FastAPI backend with PostgreSQL, a Next.js/React web backoffice and a Kotlin Android app built with Jetpack Compose. It includes JWT authentication, admin and employee roles, CRUD flows for projects and employees, work records with dates, hours, notes and images, Alembic migrations and a Docker-ready local setup."
+        },
+        tags: ["Full Stack", "Android", "Web"],
+        tech: ["Kotlin", "Jetpack Compose", "Next.js", "React", "TypeScript", "FastAPI", "PostgreSQL", "SQLAlchemy", "Docker"],
+        portada: projectAsset("Docunova", "logo.webp"),
+        coverOverlay: false,
+        command: DOCUNOVA_BACKEND_COMMAND,
+        galeria: [
+            projectAsset("Docunova", "demoDocunova.webm"),
+            ...Array.from({ length: 11 }, (_, i) => projectAsset("Docunova", `Docunova_${i + 1}.webp`)),
+        ],
+        links: [
+            { type: "github", url: "https://github.com/Estebanez2/Docunova", label: { es: "Ver GitHub + ReadMe.md", en: "View GitHub + ReadMe.md" } },
+        ]
+    },
+    {
+        id: 13,
+        titulo: { es: "BoardGameVerse", en: "BoardGameVerse" },
+        resumen: { es: "Hub multijugador de juegos de mesa en Unreal Engine", en: "Multiplayer board game hub built with Unreal Engine" },
+        desc: {
+            es: "Trabajo de Fin de Grado desarrollado en Unreal Engine 5 como una plataforma multijugador de juegos de mesa virtuales en 3D. Permite a jugadores remotos autenticarse con Epic Online Services, crear o buscar salas, reunirse en un lobby sincronizado, consultar instrucciones y jugar partidas online en tiempo real. El hub integra dos juegos de cartas, Pelusas Revolution y Power Hungry Pets, cada uno con reglas, turnos, cartas, efectos e interfaces propias. La arquitectura combina C++, Blueprints, UMG y replicación de red de Unreal con lógica autoritativa en servidor y un diseño preparado para añadir nuevos juegos reutilizando el sistema común de sesiones y lobby.",
+            en: "Final Degree Project developed in Unreal Engine 5 as a multiplayer 3D virtual board game platform. Remote players can authenticate with Epic Online Services, create or find rooms, meet in a synchronized lobby, check in-game instructions and play online matches in real time. The hub includes two card games, Pelusas Revolution and Power Hungry Pets, each with its own rules, turns, cards, effects and interfaces. The architecture combines C++, Blueprints, UMG and Unreal network replication with server-authoritative logic and a design prepared to add new games by reusing the shared session and lobby systems."
+        },
+        tags: ["Unreal", "Multiplayer", "TFG"],
+        tech: ["Unreal Engine", "C++", "Blueprints", "Epic Online Services", "Multiplayer", "Game Networking", "UMG"],
+        portada: projectAsset("TFG", "logo.webp"),
+        coverOverlay: false,
+        galeria: [
+            projectAsset("TFG", "demoTFG.webm"),
+            ...Array.from({ length: 10 }, (_, i) => projectAsset("TFG", `TFG_${i + 1}.webp`)),
+        ],
+        links: [
+            { type: "github", url: "https://github.com/Estebanez2/TFG", label: { es: "Ver GitHub + ReadMe.md", en: "View GitHub + ReadMe.md" } },
+            { type: "download", url: "https://drive.google.com/file/d/1Ti2BTempSw0KhsuUCp4DlJ8ngR43M6DE/view?usp=sharing", label: { es: "Descargar Juego", en: "Download Game" } },
+            { type: "download", url: projectAsset("TFG", "MemoriaTFG_AlejandroEstebanezMoreno_2026.pdf"), label: { es: "Ver Memoria TFG", en: "View TFG Report" } },
+        ]
+    },
+    {
+        id: 14,
+        titulo: { es: "EverGuard", en: "EverGuard" },
+        resumen: { es: "Roguelike de acción multijugador en Unreal Engine", en: "Multiplayer action roguelike built with Unreal Engine" },
+        desc: {
+            es: "Videojuego desarrollado en equipo de cuatro personas como un roguelike de acción y fantasía oscura con vista isométrica. Cuatro guardianes con roles diferenciados protegen una reliquia sagrada mientras avanzan por una mazmorra con enemigos, oleadas, jefes, loot, experiencia, subida de nivel y pasivas desbloqueables al completar runs. El proyecto integra multijugador online con Epic Online Services, ranking global top 10 mediante PlayFab y soporte de NVIDIA DLSS para mejorar rendimiento y calidad visual.",
+            en: "Video game built by a four-person team as an isometric dark fantasy action roguelike. Four guardians with distinct roles protect a sacred relic while exploring a dungeon with enemies, waves, bosses, loot, experience, leveling and passive upgrades unlocked after completed runs. The project integrates online multiplayer with Epic Online Services, a global top 10 ranking through PlayFab and NVIDIA DLSS support to improve performance and visual quality."
+        },
+        tags: ["Unreal", "Multiplayer", "Roguelike"],
+        tech: ["Unreal Engine", "C++", "Blueprints", "Epic Online Services", "PlayFab", "NVIDIA DLSS", "Multiplayer"],
+        portada: projectAsset("EverGuard", "logo.webp"),
+        coverOverlay: false,
+        galeria: [
+            projectAsset("EverGuard", "demoEverGuard.webm"),
+            ...Array.from({ length: 9 }, (_, i) => projectAsset("EverGuard", `EverGuard_${i + 1}.webp`)),
+        ],
+        links: [
+            { type: "web", url: "https://www.ever-guard.net/", label: { es: "Web oficial", en: "Official Website" } },
+            { type: "download", url: "https://drive.google.com/file/d/1CKLkU6hw-uWIhW_SI5t1tNecE7h2SCyi/view?usp=sharing", label: { es: "Descargar Juego", en: "Download Game" } },
         ]
     }
 ];

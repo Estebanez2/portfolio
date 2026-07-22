@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
+import ProjectPlaceholder from './ProjectPlaceholder';
 
 const ProjectsSection = ({ visibleProjects, selectedTechs, clearSelectedTechs, setSelectedProject, lang, t }) => {
   const hasSelectedTechs = selectedTechs.length > 0;
@@ -27,7 +28,9 @@ const ProjectsSection = ({ visibleProjects, selectedTechs, clearSelectedTechs, s
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6">
         <AnimatePresence mode="popLayout">
           {visibleProjects.map((p) => {
-            const coverImg = p.portada || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f';
+            const hasCover = Boolean(p.portada);
+            const isContainedCover = p.coverMode === 'contain';
+            const coverStyle = p.coverBg ? { backgroundColor: p.coverBg } : undefined;
 
             return (
               <Motion.div
@@ -40,9 +43,21 @@ const ProjectsSection = ({ visibleProjects, selectedTechs, clearSelectedTechs, s
                 onClick={() => setSelectedProject(p)}
                 className="glass hover-glow p-4 rounded-[1.5rem] cursor-pointer group hover:border-orange-500/50 hover:bg-stone-900/80 transition-all duration-300"
               >
-                <div className="overflow-hidden w-40 sm:w-2/3 xl:w-3/4 mx-auto aspect-square rounded-[1.5rem] mb-4 relative bg-stone-950 shadow-2xl border-2 border-white/5">
-                  <div className="absolute inset-0 bg-orange-600/10 group-hover:bg-transparent transition z-10"></div>
-                  <img src={coverImg} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt={p.titulo[lang]} />
+                <div className="overflow-hidden w-40 sm:w-2/3 xl:w-3/4 mx-auto aspect-square rounded-[1.5rem] mb-4 relative bg-stone-950 shadow-2xl border-2 border-white/5" style={coverStyle}>
+                  {p.coverOverlay !== false && (
+                    <div className="absolute inset-0 bg-orange-600/10 group-hover:bg-transparent transition z-10"></div>
+                  )}
+                  {hasCover ? (
+                    <img
+                      src={p.portada}
+                      className={`w-full h-full ${isContainedCover ? 'object-contain p-5 sm:p-6' : 'object-cover'} group-hover:scale-105 transition duration-700`}
+                      alt={p.titulo[lang]}
+                    />
+                  ) : (
+                    <div className="h-full w-full transition duration-700 group-hover:scale-105">
+                      <ProjectPlaceholder title={p.titulo[lang]} command={p.command} compact />
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-2 mb-3">

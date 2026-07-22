@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, ChevronLeft, ChevronRight, Cpu, Download, Github, Globe, Maximize2, Minimize2, Smartphone, X } from 'lucide-react';
+import { Box, Check, ChevronLeft, ChevronRight, Copy, Cpu, Download, Github, Globe, Maximize2, Minimize2, Smartphone, X } from 'lucide-react';
 import { motion as Motion } from 'framer-motion';
+import ProjectPlaceholder from './ProjectPlaceholder';
 import TechIcon from './TechIcon';
 import { getYoutubeId, isVideo } from '../utils/media';
 
@@ -8,13 +9,18 @@ const ProjectLinkIcon = ({ type }) => {
   switch (type) {
     case 'github': return <Github size={16} />;
     case 'apk': return <Smartphone size={16} />;
+    case 'command': return <Copy size={16} />;
     case 'docker': return <Box size={16} />;
     case 'web': return <Globe size={16} />;
     default: return <Download size={16} />;
   }
 };
 
-const ModalMedia = ({ currentMedia, ytId }) => {
+const ModalMedia = ({ currentMedia, ytId, project, lang }) => {
+  if (!currentMedia) {
+    return <ProjectPlaceholder title={project.titulo[lang]} command={project.command} />;
+  }
+
   if (ytId) {
     return (
       <iframe
@@ -30,7 +36,7 @@ const ModalMedia = ({ currentMedia, ytId }) => {
       <video
         src={currentMedia}
         className="w-full h-full object-contain bg-black"
-        controls autoPlay muted loop playsInline
+        controls preload="metadata" loop playsInline
       >Tu navegador no soporta videos.</video>
     );
   }
@@ -41,6 +47,7 @@ const ModalMedia = ({ currentMedia, ytId }) => {
 const ProjectModal = ({ project, onClose, lang, t }) => {
   const [slideIdx, setSlideIdx] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [copiedLinkIndex, setCopiedLinkIndex] = useState(null);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -61,12 +68,37 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
 
   if (!project) return null;
 
+  const mediaItems = project.galeria || [];
+  const hasMedia = mediaItems.length > 0;
+
   const changeSlide = (n) => {
-    setSlideIdx((prev) => (prev + n + project.galeria.length) % project.galeria.length);
+    if (!hasMedia) return;
+    setSlideIdx((prev) => (prev + n + mediaItems.length) % mediaItems.length);
   };
 
-  const currentMedia = project.galeria[slideIdx];
-  const ytId = getYoutubeId(currentMedia);
+  const copyCommand = async (command, index) => {
+    if (!command) return;
+
+    try {
+      await navigator.clipboard.writeText(command);
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = command;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+
+    setCopiedLinkIndex(index);
+    window.setTimeout(() => setCopiedLinkIndex(null), 1800);
+  };
+
+  const currentMedia = hasMedia ? mediaItems[slideIdx] : null;
+  const ytId = currentMedia ? getYoutubeId(currentMedia) : null;
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-10 animate-fade-in">
@@ -84,32 +116,36 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
               : 'w-full md:w-3/5 h-[38%] sm:h-2/5 md:h-full'
             }
         `}>
-          <ModalMedia currentMedia={currentMedia} ytId={ytId} />
+          <ModalMedia currentMedia={currentMedia} ytId={ytId} project={project} lang={lang} />
 
-          {!ytId && (
+          {hasMedia && !ytId && (
             <button
               onClick={() => setIsFullScreen(!isFullScreen)}
-              className={`hover-glow absolute top-3 sm:top-4 z-[210] bg-black/50 hover:bg-orange-600 p-2 rounded-full transition text-white backdrop-blur-sm group ${isFullScreen ? 'right-3 sm:right-4' : 'right-14 sm:right-16'}`}
+              className={`hover-glow absolute top-3 sm:top-4 z-[210] bg-black/50 hover:bg-orange-600 p-2 rounded-full transition text-white backdrop-blur-sm group ${isFullScreen ? 'right-3 sm:right-4' : 'right-14 sm:right-16 md:right-4'}`}
               title={isFullScreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
             >
               {isFullScreen ? <Minimize2 size={24} /> : <Maximize2 size={24} />}
             </button>
           )}
 
-          <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none z-[205]">
-            <button onClick={(e) => { e.stopPropagation(); changeSlide(-1); }} className="hover-glow pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft size={isFullScreen ? 40 : 24} /></button>
-            <button onClick={(e) => { e.stopPropagation(); changeSlide(1); }} className="hover-glow pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight size={isFullScreen ? 40 : 24} /></button>
-          </div>
+          {hasMedia && (
+            <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none z-[205]">
+              <button onClick={(e) => { e.stopPropagation(); changeSlide(-1); }} className="hover-glow pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronLeft size={isFullScreen ? 40 : 24} /></button>
+              <button onClick={(e) => { e.stopPropagation(); changeSlide(1); }} className="hover-glow pointer-events-auto bg-black/50 p-2 rounded-full hover:bg-orange-600 transition backdrop-blur-sm"><ChevronRight size={isFullScreen ? 40 : 24} /></button>
+            </div>
+          )}
 
-          <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-[205] bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
-            <Motion.span
-              key={slideIdx}
-              initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
-              className="text-orange-500 font-black text-xs"
-            >{slideIdx + 1}</Motion.span>
-            <span className="text-orange-500 font-black text-xs">/</span>
-            <span className="text-orange-500 font-black text-xs">{project.galeria.length}</span>
-          </div>
+          {hasMedia && (
+            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-[205] bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 flex items-center gap-1 shadow-lg select-none pointer-events-none">
+              <Motion.span
+                key={slideIdx}
+                initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
+                className="text-orange-500 font-black text-xs"
+              >{slideIdx + 1}</Motion.span>
+              <span className="text-orange-500 font-black text-xs">/</span>
+              <span className="text-orange-500 font-black text-xs">{mediaItems.length}</span>
+            </div>
+          )}
         </div>
 
         <div className={`
@@ -145,12 +181,33 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
 
           <div className="mt-auto pt-4 border-t border-white/5 flex flex-wrap gap-3">
             {project.links && project.links.map((link, index) => {
+              const isCopyAction = link.type === 'command';
+              const isCopied = copiedLinkIndex === index;
               const btnStyle = link.type === 'github' ? 'glass hover:bg-white/10' : 'btn-orange';
+              const buttonContent = (
+                <>
+                  {isCopied ? <Check size={16} /> : <ProjectLinkIcon type={link.type} />}
+                  {isCopied ? t.btn_copied : link.label[lang]}
+                </>
+              );
+
+              if (isCopyAction) {
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => copyCommand(link.command || project.command, index)}
+                    className={`hover-glow flex-[1_1_140px] min-w-0 px-3 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 text-center transition ${btnStyle}`}
+                  >
+                    {buttonContent}
+                  </button>
+                );
+              }
 
               return (
                 <a key={index} href={link.url} target="_blank" rel="noreferrer"
                   className={`hover-glow flex-[1_1_140px] min-w-0 px-3 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 text-center transition ${btnStyle}`}>
-                  <ProjectLinkIcon type={link.type} /> {link.label[lang]}
+                  {buttonContent}
                 </a>
               );
             })}
