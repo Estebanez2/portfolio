@@ -11,6 +11,38 @@ import { useScrollProgress } from './hooks/useScrollProgress';
 import { PROJECTS, TRANSLATIONS } from './data';
 import './index.css';
 
+const ESSENTIAL_TECHS = [
+  'React',
+  'Next.js',
+  'TypeScript',
+  'JavaScript',
+  'CSS3',
+  'Tailwind CSS',
+  'Bootstrap',
+  'Vite',
+  'Three.js',
+  'Android Studio',
+  'Jetpack Compose',
+  'Kotlin',
+  'Java',
+  'C#',
+  'C++',
+  'C Language',
+  '.NET',
+  'Unreal Engine',
+  'Unity 2D',
+  'Docker',
+  'FastAPI',
+  'Spring Boot',
+  'PostgreSQL',
+  'MySQL',
+  'SQL Server',
+  'MongoDB',
+  'SQLite',
+  'Firebase',
+  'GitHub Actions',
+];
+
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem('portfolio-lang') || 'en');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -33,8 +65,8 @@ function App() {
   );
 
   const uniqueTechs = useMemo(() => {
-    const all = orderedProjects.flatMap((p) => p.tech);
-    return [...new Set(all)].sort();
+    const availableTechs = new Set(orderedProjects.flatMap((p) => p.tech));
+    return ESSENTIAL_TECHS.filter((tech) => availableTechs.has(tech));
   }, [orderedProjects]);
 
   const visibleProjects = useMemo(
