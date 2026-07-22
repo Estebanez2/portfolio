@@ -47,12 +47,12 @@ const ContactSection = ({ t }) => {
           </form>
         )}
 
-        <div className="flex justify-center gap-8 mt-10">
-          <a href="https://www.linkedin.com/in/alejandro-estebanez-moreno-a2749a3aa/" className="text-glow grid h-12 w-12 place-items-center text-stone-500 hover:text-orange-500 transition" aria-label="LinkedIn">
-            <Linkedin size={32} strokeWidth={1.8} />
+        <div className="flex justify-center gap-10 mt-10">
+          <a href="https://www.linkedin.com/in/alejandro-estebanez-moreno-a2749a3aa/" className="hover-glow grid h-16 w-16 place-items-center rounded-full text-stone-500 hover:text-orange-500 transition" aria-label="LinkedIn">
+            <Linkedin size={44} strokeWidth={1.7} />
           </a>
-          <a href="https://github.com/estebanez2" className="text-glow grid h-12 w-12 place-items-center text-stone-500 hover:text-orange-500 transition" aria-label="GitHub">
-            <Github size={32} strokeWidth={1.8} />
+          <a href="https://github.com/estebanez2" className="hover-glow grid h-16 w-16 place-items-center rounded-full text-stone-500 hover:text-orange-500 transition" aria-label="GitHub">
+            <Github size={44} strokeWidth={1.7} />
           </a>
         </div>
       </Motion.div>

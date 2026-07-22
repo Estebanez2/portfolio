@@ -12,6 +12,15 @@ const HeroSection = ({ t }) => (
         <div className="inline-block px-3 py-1 mb-4 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-bold tracking-widest uppercase">
           {t.hero_status}
         </div>
+        <Motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.12 }}
+          className="animated-name mb-4 text-sm sm:text-base md:text-lg font-black uppercase text-orange-300"
+        >
+          Alejandro Estébanez Moreno
+        </Motion.p>
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 leading-tight">
           CODE.<br />CREATE.<br /><span className="orange-gradient">DEPLOY.</span>
         </h1>
@@ -29,7 +38,7 @@ const HeroSection = ({ t }) => (
         className="order-1 md:order-2 flex justify-center relative min-w-0"
       >
         <div className="absolute inset-0 bg-orange-500/20 blur-[80px] rounded-full"></div>
-        <div className="hover-glow relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-[2rem] overflow-hidden border-2 border-orange-500/50 profile-glow rotate-3 hover:rotate-0 transition duration-500 bg-stone-800">
+        <div className="hover-glow relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[23rem] lg:h-[23rem] xl:w-[24rem] xl:h-[24rem] rounded-[2rem] overflow-hidden border-2 border-orange-500/50 profile-glow rotate-3 hover:rotate-0 transition duration-500 bg-stone-800">
           <img src={fotoPerfil} alt="Profile" className="w-full h-full object-cover opacity-90 hover:opacity-100 transition" />
         </div>
       </Motion.div>

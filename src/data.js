@@ -2,7 +2,7 @@ export const TRANSLATIONS = {
     es: {
         nav_home: "Inicio", nav_projects: "Proyectos", nav_contact: "Contacto",
         hero_status: "Disponible para trabajar",
-        hero_desc: "Soy desarrollador apasionado por la creación de software interactivo. Me especializo en desarrollo móvil (Android), videojuegos (Unreal) y aplicaciones web. Transformo ideas complejas en código limpio.",
+        hero_desc: "Soy desarrollador con el título de Ingeniero en Software en la Universidad de Málaga. Me especializo en desarrollo móvil (Android), videojuegos (Unreal) y aplicaciones web. Transformo ideas complejas en código limpio.",
         btn_projects: "VER PROYECTOS", btn_cv: "DESCARGAR CV",
         stack_title: "Tech Stack",
         section_projects_title: "Proyectos", section_projects_subtitle: "Una selección de mis trabajos solitarios o en grupo más destacados hasta el momento.",
@@ -16,7 +16,7 @@ export const TRANSLATIONS = {
     en: {
         nav_home: "Home", nav_projects: "Projects", nav_contact: "Contact",
         hero_status: "Open to work",
-        hero_desc: "Passionate developer focused on creating interactive software. Specialized in Mobile Development (Android) and Game Dev (Unity). Turning complex ideas into clean code.",
+        hero_desc: "Software Engineer from the University of Malaga, focused on mobile development (Android), video games (Unreal), and web applications. Turning complex ideas into clean code.",
         btn_projects: "VIEW WORK", btn_cv: "DOWNLOAD CV",
         stack_title: "Tech Stack",
         section_projects_title: "Projects", section_projects_subtitle: "A selection of my most outstanding solo or group work to date.",
@@ -45,6 +45,7 @@ export const PROJECTS = [
             en: "Battle Clicker RPG combines classic clicker mechanics with RPG progression. Fight bosses, unlock skills, use items, track your stats and discover hidden content."
         },
         tags: ["Android", "Game"],
+        meta: { year: "2026", duration: { es: "2 meses", en: "2 months" } },
         tech: ["Android Studio", "Java", "SQLite", "Material Design"],
         portada: projectAsset("BattleClickerRPG", "iconoBattleClickerRPG.webp"),
         galeria: [
@@ -65,6 +66,7 @@ export const PROJECTS = [
             en: "Intuitive application to efficiently manage personal monthly expenses with categories and visual reports, including photos. To better visualize your expenses, it has 4 different views: List, Calendar, Charts, and Categories."
         },
         tags: ["Android", "App"],
+        meta: { year: "2026", duration: { es: "2 semanas", en: "2 weeks" } },
         tech: ["Android Studio", "Kotlin", "SQLite", "MPAndroidChart"],
         portada: projectAsset("GestorGastos", "iconoGestorGastos.webp"),
         galeria: [
@@ -85,6 +87,7 @@ export const PROJECTS = [
             en: "The Legends Of G is a Top Down 2D RPG game developed in Unity that offers a dynamic and fluid combat experience. Explore a post-apocalyptic world with varied enemies. Use different items and the inventory to complete main and side quests."
         },
         tags: ["Unity", "C#"],
+        meta: { year: "2024", duration: { es: "3 meses", en: "3 months" } },
         tech: ["Unity 2D", "C#", "Cinemachine", "A* Pathfinding"],
         portada: projectAsset("TheLegendsOfG", "iconoTheLegendsOfG.webp"),
         galeria: [
@@ -104,6 +107,7 @@ export const PROJECTS = [
             en: "X-It is an online multiplayer Escape Room game developed in React where you will face another person to see who escapes the room first. To escape, you must solve a series of puzzles and riddles within a limited time."
         },
         tags: ["React", "Web"],
+        meta: { year: "2025", duration: { es: "2 meses", en: "2 months" } },
         tech: ["React", "JavaScript", "Tailwind CSS", "Firebase"],
         portada: projectAsset("X-it", "iconoX-it.webp"),
         galeria: [
@@ -123,6 +127,7 @@ export const PROJECTS = [
             en: "Desktop application in C# (Windows Forms) focused on product information management (PIM). It offers management of products, categories, and attributes, relationships between products, CRUD operations, and data export."
         },
         tags: ["Desktop", "C#"],
+        meta: { year: "2024", duration: { es: "3 meses", en: "3 months" } },
         tech: ["C#", "Windows Forms", ".NET", "SQL Server", "CSV Export"],
         portada: projectAsset("MiniPIM", "iconoMiniPIM.webp"),
         galeria: [
@@ -142,6 +147,7 @@ export const PROJECTS = [
             en: "Web application project built with secure MVC architecture using JSP, Spring Boot, and MySQL database, implementing a movie management system with differentiated roles."
         },
         tags: ["Java", "Web", "Spring"],
+        meta: { year: "2025", duration: { es: "3 meses", en: "3 months" } },
         tech: ["Java", "Spring Boot", "MySQL", "JSP", "Bootstrap"],
         portada: projectAsset("SceneIt", "iconoSceneIt.webp"),
         galeria: [
@@ -161,6 +167,7 @@ export const PROJECTS = [
             en: "Application developed with Scratch that implements a basic messaging system using Bluetooth communication. Although Scratch is not designed for this type of application, but rather for educational environments, the project explores fundamental concepts such as real-time message exchange."
         },
         tags: ["Java", "App Inventor"],
+        meta: { year: "2026", duration: { es: "2 semanas", en: "2 weeks" } },
         tech: ["App Inventor", "Bluetooth Protocol", "Java"],
         portada: projectAsset("ChatBluetooth", "iconoChatBluetooth.webp"),
         galeria: [
@@ -180,6 +187,7 @@ export const PROJECTS = [
             en: "Technical design project carried out with AutoCAD, focused on creating 2D and 3D figures and infographics. It includes the use of dimensioning tools, layer organization, and scaling."
         },
         tags: ["Design", "AutoCAD"],
+        meta: { year: "2022", duration: { es: "5 meses", en: "5 months" } },
         tech: ["AutoCAD 2023", "2D Modeling", "3D Modeling"],
         portada: projectAsset("AutoCad", "iconoAutoCad.webp"),
         galeria: [
@@ -198,6 +206,7 @@ export const PROJECTS = [
             en: "Interactive Linux shell developed in C. It can run system commands, manage foreground and background processes, use redirections, control jobs, work with POSIX signals, and test extensions such as respawnable jobs, alarms, and delayed execution. The project is packaged with Docker and published on GitHub Container Registry so it can be tested without setting up a virtual machine."
         },
         tags: ["Linux", "C", "Docker"],
+        meta: { year: "2024", duration: { es: "2 meses", en: "2 months" } },
         tech: ["C Language", "Linux Kernel", "Process Management", "Docker", "GitHub Actions"],
         command: SHELL_DOCKER_COMMAND,
         galeria: [
@@ -218,6 +227,7 @@ export const PROJECTS = [
             en: "Professional portfolio built with React and Vite for Alejandro Biedma Carrasco, an Industrial Design and Product Development Engineering student. The site presents industrial design projects through hash routing, language switching, detail pages, optimized galleries, technical documents, and 3D model visualization with Three.js. The goal was to create a responsive, polished, lightweight experience for renders, drawings, reports, and project branding."
         },
         tags: ["React", "Web"],
+        meta: { year: "2026", duration: { es: "1 semana", en: "1 week" } },
         tech: ["React", "Vite", "Three.js", "JavaScript", "CSS3", "Responsive Design"],
         portada: projectAsset("PortfolioBiedma", "logo.webp"),
         coverOverlay: false,
@@ -238,6 +248,7 @@ export const PROJECTS = [
             en: "Team-built full-stack calendar application inspired by Google Calendar. It supports personal, public and subscribed calendars, nested subcalendars, event management with tags, JSON import/export, Google Calendar imports, comments, notifications and multimedia. The architecture separates a React/TypeScript frontend, a FastAPI API Gateway, independent microservices, MongoDB and a Node/Express service for Cloudinary and Brevo, all ready to run with Docker Compose."
         },
         tags: ["React", "Web"],
+        meta: { year: "2025", duration: { es: "3 meses", en: "3 months" } },
         tech: ["React", "TypeScript", "FastAPI", "MongoDB", "Docker", "Firebase", "FullCalendar", "Google Calendar API"],
         portada: projectAsset("Kalendas", "logo.webp"),
         coverOverlay: false,
@@ -258,6 +269,7 @@ export const PROJECTS = [
             en: "Full-stack platform developed during my company internship to manage construction projects, employees and work records. The system connects a FastAPI backend with PostgreSQL, a Next.js/React web backoffice and a Kotlin Android app built with Jetpack Compose. It includes JWT authentication, admin and employee roles, CRUD flows for projects and employees, work records with dates, hours, notes and images, Alembic migrations and a Docker-ready local setup."
         },
         tags: ["Full Stack", "Android", "Web"],
+        meta: { year: "2026", duration: { es: "2 meses", en: "2 months" } },
         tech: ["Kotlin", "Jetpack Compose", "Next.js", "React", "TypeScript", "FastAPI", "PostgreSQL", "SQLAlchemy", "Docker"],
         portada: projectAsset("Docunova", "logo.webp"),
         coverOverlay: false,
@@ -279,6 +291,7 @@ export const PROJECTS = [
             en: "Final Degree Project developed in Unreal Engine 5 as a multiplayer 3D virtual board game platform. Remote players can authenticate with Epic Online Services, create or find rooms, meet in a synchronized lobby, check in-game instructions and play online matches in real time. The hub includes two card games, Pelusas Revolution and Power Hungry Pets, each with its own rules, turns, cards, effects and interfaces. The architecture combines C++, Blueprints, UMG and Unreal network replication with server-authoritative logic and a design prepared to add new games by reusing the shared session and lobby systems."
         },
         tags: ["Unreal", "Multiplayer", "TFG"],
+        meta: { year: "2026", duration: { es: "3 meses", en: "3 months" } },
         tech: ["Unreal Engine", "C++", "Blueprints", "Epic Online Services", "Multiplayer", "Game Networking", "UMG"],
         portada: projectAsset("TFG", "logo.webp"),
         coverOverlay: false,
@@ -301,6 +314,7 @@ export const PROJECTS = [
             en: "Video game built by a four-person team as an isometric dark fantasy action roguelike. Four guardians with distinct roles protect a sacred relic while exploring a dungeon with enemies, waves, bosses, loot, experience, leveling and passive upgrades unlocked after completed runs. The project integrates online multiplayer with Epic Online Services, a global top 10 ranking through PlayFab and NVIDIA DLSS support to improve performance and visual quality."
         },
         tags: ["Unreal", "Multiplayer", "Roguelike"],
+        meta: { year: "2026", duration: { es: "2 meses", en: "2 months" } },
         tech: ["Unreal Engine", "C++", "Blueprints", "Epic Online Services", "PlayFab", "NVIDIA DLSS", "Multiplayer"],
         portada: projectAsset("EverGuard", "logo.webp"),
         coverOverlay: false,

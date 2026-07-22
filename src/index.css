@@ -17,6 +17,17 @@ a, button, input, textarea { -webkit-tap-highlight-color: transparent; }
 @keyframes move { from { transform: translate(0, 0); } to { transform: translate(20vw, 20vh); } }
 
 .orange-gradient { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.animated-name {
+  display: inline-block;
+  letter-spacing: 0.18em;
+  background: linear-gradient(90deg, #fed7aa 0%, #fb923c 35%, #fff7ed 50%, #ea580c 65%, #fed7aa 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgba(234, 88, 12, 0.22));
+  animation: name-shine 4.8s ease-in-out infinite;
+}
+@keyframes name-shine { 0%, 100% { background-position: 0% center; } 50% { background-position: 100% center; } }
 .glass { background: rgba(28, 25, 23, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(251, 146, 60, 0.1); }
 .btn-orange { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); transition: all 0.3s ease; border: none; color: white; }
 .btn-orange:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.22), 0 0 16px rgba(234, 88, 12, 0.24), 0 8px 18px rgba(234, 88, 12, 0.18); }
@@ -66,3 +77,6 @@ a, button, input, textarea { -webkit-tap-highlight-color: transparent; }
 
 .custom-scroll::-webkit-scrollbar { width: 4px; }
 .custom-scroll::-webkit-scrollbar-thumb { background: #ea580c; border-radius: 10px; }
+
+.zoom-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.zoom-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
