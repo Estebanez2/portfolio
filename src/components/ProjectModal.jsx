@@ -30,6 +30,26 @@ const getMidpoint = ([first, second]) => ({
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
+const DEFAULT_VIDEO_VOLUME = 0.25;
+
+const ProjectVideo = ({ src }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = DEFAULT_VIDEO_VOLUME;
+    }
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      className="w-full h-full object-contain bg-black"
+      controls autoPlay preload="metadata" loop playsInline
+    >Tu navegador no soporta videos.</video>
+  );
+};
 
 const ZoomableImage = ({ src, alt }) => {
   const [zoom, setZoom] = useState(MIN_ZOOM);
@@ -365,17 +385,32 @@ const ModalMedia = ({ currentMedia, ytId, project, lang }) => {
   }
 
   if (isVideo(currentMedia)) {
-    return (
-      <video
-        src={currentMedia}
-        className="w-full h-full object-contain bg-black"
-        controls autoPlay preload="metadata" loop playsInline
-      >Tu navegador no soporta videos.</video>
-    );
+    return <ProjectVideo src={currentMedia} />;
   }
 
   return <ZoomableImage key={currentMedia} src={currentMedia} alt={project.titulo[lang]} />;
 };
+
+const ProjectTitle = ({ title }) => (
+  <div className="relative inline-block">
+    <Motion.h2
+      key={title}
+      initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className="project-title text-2xl sm:text-3xl md:text-[2rem] font-black text-white leading-tight"
+    >
+      {title}
+    </Motion.h2>
+    <Motion.span
+      key={`${title}-line`}
+      initial={{ scaleX: 0, opacity: 0 }}
+      animate={{ scaleX: 1, opacity: 1 }}
+      transition={{ duration: 0.65, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+      className="project-title-line"
+    />
+  </div>
+);
 
 const ProjectModal = ({ project, onClose, lang, t }) => {
   const [slideIdx, setSlideIdx] = useState(0);
@@ -487,40 +522,39 @@ const ProjectModal = ({ project, onClose, lang, t }) => {
             ${isFullScreen ? 'hidden' : 'flex'}
         `}>
           <div className="flex min-h-full flex-col">
-            <div className="grid grid-cols-2 gap-2.5 mb-3">
-              <div className="relative overflow-hidden rounded-xl border border-orange-500/15 bg-orange-500/[0.045] px-2.5 py-2">
-                <div className="relative flex items-center gap-2.5">
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-orange-500/10 text-orange-300 ring-1 ring-orange-500/15">
-                    <CalendarDays size={15} />
+            <div className="mb-4">
+              <div className="mb-3 flex flex-wrap items-center gap-2.5">
+                <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/[0.06] px-3 py-1.5">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-orange-500/10 text-orange-300">
+                    <CalendarDays size={13} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-[9px] font-bold uppercase tracking-widest text-stone-500">
+                    <span className="mr-1.5 text-[9px] font-bold uppercase tracking-widest text-stone-500">
                       {lang === 'es' ? 'Año' : 'Year'}
                     </span>
-                    <span className="block truncate text-base font-black text-white">
+                    <span className="text-sm font-black text-white">
                       {project.meta?.year}
                     </span>
                   </span>
                 </div>
-              </div>
 
-              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.035] px-2.5 py-2">
-                <div className="relative flex items-center gap-2.5">
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-black/25 text-orange-300 ring-1 ring-white/10">
-                    <Clock3 size={15} />
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-black/25 text-orange-300">
+                    <Clock3 size={13} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-[9px] font-bold uppercase tracking-widest text-stone-500">
+                    <span className="mr-1.5 text-[9px] font-bold uppercase tracking-widest text-stone-500">
                       {lang === 'es' ? 'Duración' : 'Duration'}
                     </span>
-                    <span className="block truncate text-base font-black text-white">
+                    <span className="text-sm font-black text-white">
                       {project.meta?.duration?.[lang]}
                     </span>
                   </span>
                 </div>
               </div>
+
+              <ProjectTitle title={project.titulo[lang]} />
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-[2rem] font-black text-white mb-3 leading-tight">{project.titulo[lang]}</h2>
 
             <p className={`text-stone-400 mb-4 ${isLongDescription ? 'text-[12px] leading-[1.45] sm:text-[13px]' : 'text-sm leading-relaxed'}`}>
               {project.desc[lang]}

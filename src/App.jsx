@@ -24,18 +24,26 @@ function App() {
     localStorage.setItem('portfolio-lang', lang);
   }, [lang]);
 
+  const orderedProjects = useMemo(
+    () => [...PROJECTS].sort((a, b) => {
+      const yearDifference = Number(b.meta?.year ?? 0) - Number(a.meta?.year ?? 0);
+      return yearDifference || b.id - a.id;
+    }),
+    [],
+  );
+
   const uniqueTechs = useMemo(() => {
-    const all = PROJECTS.flatMap((p) => p.tech);
+    const all = orderedProjects.flatMap((p) => p.tech);
     return [...new Set(all)].sort();
-  }, []);
+  }, [orderedProjects]);
 
   const visibleProjects = useMemo(
     () => (
       selectedTechs.length > 0
-        ? PROJECTS.filter((p) => selectedTechs.some((tech) => p.tech.includes(tech)))
-        : PROJECTS
+        ? orderedProjects.filter((p) => selectedTechs.some((tech) => p.tech.includes(tech)))
+        : orderedProjects
     ),
-    [selectedTechs],
+    [orderedProjects, selectedTechs],
   );
 
   return (

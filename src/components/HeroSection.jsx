@@ -12,15 +12,6 @@ const HeroSection = ({ t }) => (
         <div className="inline-block px-3 py-1 mb-4 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-bold tracking-widest uppercase">
           {t.hero_status}
         </div>
-        <Motion.p
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.12 }}
-          className="animated-name mb-4 text-sm sm:text-base md:text-lg font-black uppercase text-orange-300"
-        >
-          Alejandro Estébanez Moreno
-        </Motion.p>
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-6 leading-tight">
           CODE.<br />CREATE.<br /><span className="orange-gradient">DEPLOY.</span>
         </h1>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { motion as Motion } from 'framer-motion';
 
 const LANG_OPTIONS = {
   es: { label: 'Español' },
@@ -42,7 +43,18 @@ const Navigation = ({ lang, setLang, t, isLangMenuOpen, setIsLangMenuOpen }) => 
   return (
     <nav className="fixed w-full z-50 glass py-4 px-4 sm:px-6 md:px-12 border-b border-white/5">
       <div className="flex justify-between items-center gap-4 min-w-0">
-        <span className="text-lg sm:text-xl font-black tracking-tighter text-orange-500 shrink-0">DEV.PORTFOLIO</span>
+        <a href="#inicio" className="shrink-0 leading-none">
+          <span className="block text-lg sm:text-xl font-black tracking-tighter text-orange-500">DEV.PORTFOLIO</span>
+          <Motion.span
+            initial={{ opacity: 0, y: -3 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+            className="nav-signature mt-1 block text-[10px] font-semibold text-stone-400"
+          >
+            <span className="sm:hidden">Alejandro E.</span>
+            <span className="hidden sm:inline">Alejandro Estébanez Moreno</span>
+          </Motion.span>
+        </a>
 
         <div className="flex items-center gap-4 sm:gap-6 shrink-0">
           <div className="hidden md:flex gap-6 text-xs font-bold uppercase tracking-widest">
