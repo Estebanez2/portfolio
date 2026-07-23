@@ -161,21 +161,24 @@ export const PROJECTS = [
     {
         id: 7,
         titulo: { es: "Chat Bluetooth", en: "Bluetooth Chat" },
-        resumen: { es: "Chat móvil mediante Bluetooth", en: "Bluetooth Mobile Chat" },
+        resumen: { es: "Chat Java y Android mediante Bluetooth", en: "Java and Android Bluetooth chat" },
         desc: {
-            es: "Aplicación desarrollada con Scratch que implementa un sistema de mensajería básica mediante comunicación Bluetooth. Pese a que Scratch no está diseñado para este tipo de aplicaciones, sino más bien para entornos educativos, el proyecto explora conceptos fundamentales como el intercambio de mensajes en tiempo real.",
-            en: "Application developed with Scratch that implements a basic messaging system using Bluetooth communication. Although Scratch is not designed for this type of application, but rather for educational environments, the project explores fundamental concepts such as real-time message exchange."
+            es: "Aplicación de comunicación Bluetooth con dos versiones: una app Android creada en MIT App Inventor y una aplicación de escritorio Java Swing. La versión Java unifica pruebas locales del adaptador, búsqueda de dispositivos, búsqueda de servicios RFCOMM, modo servidor, modo cliente y una demo local para validar el envío de mensajes sin necesitar dos equipos. Para el chat real, los dispositivos deben estar previamente emparejados por Bluetooth.",
+            en: "Bluetooth communication project with two versions: an Android app built in MIT App Inventor and a Java Swing desktop application. The Java version brings together local adapter tests, device discovery, RFCOMM service discovery, server mode, client mode, and a local demo to validate message sending without needing two machines. For the real chat flow, devices must be paired through Bluetooth first."
         },
-        tags: ["Java", "App Inventor"],
+        tags: ["Java", "Android", "Bluetooth"],
         meta: { year: "2026", duration: { es: "2 semanas", en: "2 weeks" } },
-        tech: ["App Inventor", "Bluetooth Protocol", "Java"],
-        portada: projectAsset("ChatBluetooth", "iconoChatBluetooth.webp"),
+        tech: ["Java", "App Inventor", "Bluetooth Protocol", "Android", "Maven"],
+        portada: projectAsset("ChatBluetooth", "logoChatBluetooth.webp"),
         galeria: [
             projectAsset("ChatBluetooth", "demoChatBluetooth.webm"),
-            ...Array.from({ length: 6 }, (_, i) => projectAsset("ChatBluetooth", `ChatBluetooth_${i + 1}.webp`))
+            ...Array.from({ length: 5 }, (_, i) => projectAsset("ChatBluetooth", `ChatBluetooth_${i + 1}.webp`))
         ],
+        command: "java -jar chat-bluetooth-java-1.0.0.jar",
         links: [
-            { type: "github", url: "https://github.com/Estebanez2/ChatBluetooth", label: { es: "Ver GitHub + ReadMe.md para probar", en: "View GitHub + ReadMe.md to test" } },
+            { type: "github", url: "https://github.com/Estebanez2/ChatBluetooth", label: { es: "Ver GitHub + README.md", en: "View GitHub + README.md" } },
+            { type: "download", url: "https://github.com/Estebanez2/ChatBluetooth/releases/latest/download/chat-bluetooth-java-1.0.0-release.zip", label: { es: "Descargar Java App", en: "Download Java App" } },
+            { type: "apk", url: "https://github.com/Estebanez2/ChatBluetooth/releases/latest/download/ChatBluetooth.apk", label: { es: "Descargar APK", en: "Download APK" } },
         ]
     },
     {

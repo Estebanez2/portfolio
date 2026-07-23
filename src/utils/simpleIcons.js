@@ -28,6 +28,7 @@ const ICON_SLUGS = {
   'Jetpack Compose': 'jetpackcompose',
   Kotlin: 'kotlin',
   'Linux Kernel': 'linux',
+  Maven: 'apachemaven',
   MPAndroidChart: 'android',
   MongoDB: 'mongodb',
   MySQL: 'mysql',
