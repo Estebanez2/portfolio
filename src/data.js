@@ -100,6 +100,7 @@ export const PROJECTS = [
     },
     {
         id: 4,
+        hidden: true,
         titulo: { es: "X-It", en: "X-It" },
         resumen: { es: "Escape Room multijugador online", en: "Online Multiplayer Escape Room" },
         desc: {

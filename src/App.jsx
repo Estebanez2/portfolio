@@ -57,7 +57,7 @@ function App() {
   }, [lang]);
 
   const orderedProjects = useMemo(
-    () => [...PROJECTS].sort((a, b) => {
+    () => PROJECTS.filter((project) => !project.hidden).sort((a, b) => {
       const yearDifference = Number(b.meta?.year ?? 0) - Number(a.meta?.year ?? 0);
       return yearDifference || b.id - a.id;
     }),

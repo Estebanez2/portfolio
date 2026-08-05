@@ -18,7 +18,7 @@ const HeroSection = ({ t }) => (
         <p className="text-stone-400 text-base sm:text-lg mb-8 leading-relaxed max-w-full break-words">{t.hero_desc}</p>
         <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start w-full max-w-sm mx-auto md:max-w-none md:mx-0">
           <a href="#proyectos" className="btn-orange hover-glow px-6 sm:px-8 py-4 rounded-2xl font-bold text-center">{t.btn_projects}</a>
-          <a href={`${import.meta.env.BASE_URL}CV_Alejandro_EstebanezMoreno.pdf`} target="_blank" rel="noopener noreferrer" download="CV_Alejandro_EstebanezMoreno.pdf" className="glass hover-glow px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition">
+          <a href={`${import.meta.env.BASE_URL}CV_Alejandro_Estebanez_Moreno.pdf`} target="_blank" rel="noopener noreferrer" download="CV_Alejandro_Estebanez_Moreno.pdf" className="glass hover-glow px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition">
             <FileText size={16} /> {t.btn_cv}
           </a>
         </div>
