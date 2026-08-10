@@ -100,7 +100,6 @@ export const PROJECTS = [
     },
     {
         id: 4,
-        hidden: true,
         titulo: { es: "X-It", en: "X-It" },
         resumen: { es: "Escape Room multijugador online", en: "Online Multiplayer Escape Room" },
         desc: {
@@ -113,10 +112,10 @@ export const PROJECTS = [
         portada: projectAsset("X-it", "iconoX-it.webp"),
         galeria: [
             projectAsset("X-it", "demoX-it.webm"),
-            ...Array.from({ length: 6 }, (_, i) => projectAsset("X-it", `X-it_${i + 1}.webp`))
+            ...Array.from({ length: 5 }, (_, i) => projectAsset("X-it", `X-it_${i + 1}.webp`))
         ],
         links: [
-            { type: "web", url: "https://x-it-nine.vercel.app/", label: { es: "Jugar en la Web", en: "Play on the Web   " } },
+            { type: "web", url: "https://x-it-nine.vercel.app/", label: { es: "Jugar en la Web", en: "Play on the Web" } },
         ]
     },
     {
